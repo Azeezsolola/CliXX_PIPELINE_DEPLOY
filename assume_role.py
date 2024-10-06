@@ -11,9 +11,20 @@ credentials=assumed_role_object['Credentials']
 
 print(credentials)
 
-s3=boto3.client('s3',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
-response = s3.list_buckets(
-    MaxBuckets=123)
+# s3=boto3.client('s3',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
+# response = s3.list_buckets(
+#     MaxBuckets=123)
+
+# print(response)
+
+
+response = boto3.create_security_group(
+    Description='My security group',
+    GroupName='my-security-group',
+    VpcId='vpc-0c6460b8c3c8fe62f',
+    aws_access_key_id=credentials['AccessKeyId'],
+    aws_secret_access_key=credentials['SecretAccessKey'],
+    aws_session_token=credentials['SessionToken']
+    )
 
 print(response)
-

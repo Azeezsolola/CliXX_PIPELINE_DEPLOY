@@ -98,6 +98,19 @@ else
     echo "sed was not done"
 fi
 
+output_variable=$(mysql -u wordpressuser -p -h wordpressdbclixx-ecs.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123 -sse "select option_value from wp_options where option_value like 'CliXX-APP-%';")
+DNS=$(curl http://169.254.169.254/latest/meta-data/public-hostname)
+if [ output_variable == ${DNS} ]
+then
+    echo "DNS Address in the the table"
+else
+    echo "DNS Address is not in the table"
+    #Logging DB
+    mysql -u wordpressuser -p -h wordpressdbclixx-ecs.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123<<EOF
+    UPDATE wp_options SET option_value ='${DNS}' WHERE option_value LIKE 'CliXX-APP-%';
+EOF
+fi
+
 
 ##Grant file ownership of /var/www & its contents to apache user
 sudo chown -R apache /var/www

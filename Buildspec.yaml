@@ -17,7 +17,8 @@ phases:
          --group-name demo-sg \
          --description "AWS ec2 CLI Demo SG" \
          --tag-specifications 'ResourceType=security-group,Tags=[{Key=Name,Value=demo-sg}]' \
-         --vpc-id "vpc-0269ddbcb1b88dbda"
+         --vpc-id "vpc-0269ddbcb1b88dbda" \
+         --region "us-east-1"
   post_build:
     commands:
       - echo Build completed on `date`

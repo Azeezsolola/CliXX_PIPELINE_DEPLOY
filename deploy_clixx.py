@@ -42,8 +42,9 @@ print(response)
 
 
 #Describing Database
-
 response = rds_client.describe_db_instances(DBInstanceIdentifier='wordpressdbclixx-ecs')
-print(response)
+endpoint = response['DBInstances'][0]['Endpoint']
+print(endpoint)
+
 
 

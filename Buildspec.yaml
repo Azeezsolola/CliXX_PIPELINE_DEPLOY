@@ -3,6 +3,7 @@ phases:
   install:
     commands:
       - pip install yq
+      -pip install boto3
   pre_build:
     commands:
       - echo "Starting CliXX deployment"
@@ -13,7 +14,9 @@ phases:
       - echo starting build on `date`
       - echo "Creating CliXX Security Group for apps and database"
       - |
-          
+
+          import boto3
+              
           sts_client=boto3.client('sts')
 
           #Calling the assume_role function

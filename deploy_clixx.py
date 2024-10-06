@@ -36,10 +36,12 @@ response = rds_client.restore_db_instance_from_db_snapshot(
     DBInstanceClass='db.m6gd.large',
     AvailabilityZone='us-east-1a',
     MultiAZ=False,
-    PubliclyAccessible=True
+    PubliclyAccessible=True,
+    VpcSecurityGroupIds=['sg-0fef030fc2befbb1e']
 )
 print(response)
 
+sleep 300
 
 
 AWS_REGION = "us-east-1"

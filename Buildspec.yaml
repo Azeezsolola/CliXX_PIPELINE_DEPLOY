@@ -13,11 +13,27 @@ phases:
       - echo starting build on `date`
       - echo "Creating CliXX Security Group for apps and database"
       - |
+          aws sts assume-role --role-arn arn:aws:iam::495599767034:role/Engineer --role-session-name codebuild --duration-seconds 900 --profile management > cred.json
+          acc_key=$(jq -r '.Credentials.AccessKeyId' cred.json)
+          echo $acc_key
+
+          sec_key=$(jq -r '.Credentials.SecretAccessKey' cred.json)
+          echo $sec_key
+
+
+          sess_tok=$(jq -r '.Credentials.SessionToken' cred.json)
+          echo $sess_tok
+
+
+          export AWS_ACCESS_KEY=$acc_key
+          export AWS_SECRET_ACCESS_KEY=$sec_key
+          export AWS_SESSION_TOKEN=$sess_tok
+      - |
          aws ec2 create-security-group \
          --group-name demo-sg \
          --description "AWS ec2 CLI Demo SG" \
          --tag-specifications 'ResourceType=security-group,Tags=[{Key=Name,Value=demo-sg}]' \
-         --vpc-id "vpc-0269ddbcb1b88dbda" \
+         --vpc-id "vpc-0c6460b8c3c8fe62f" \
          --region "us-east-1"
   post_build:
     commands:

@@ -41,3 +41,9 @@ response = rds_client.restore_db_instance_from_db_snapshot(
 print(response)
 
 
+#Describing Database
+
+response = rds_client.describe_db_instances(DBInstanceIdentifier='wordpressdbclixx-ecs')
+print(response)
+
+

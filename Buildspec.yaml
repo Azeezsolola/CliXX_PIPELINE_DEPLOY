@@ -13,14 +13,15 @@ phases:
     commands:
       - echo starting build on `date`
       - echo "Creating CliXX Security Group for apps and database"
-      - python assume_role.py
       - |
-         aws ec2 create-security-group \
-         --group-name demo-sg \
-         --description "AWS ec2 CLI Demo SG" \
-         --tag-specifications 'ResourceType=security-group,Tags=[{Key=Name,Value=demo-sg}]' \
-         --vpc-id "vpc-0c6460b8c3c8fe62f" \
-         --region "us-east-1"
+          flag="destroy"
+          if [[ ${flag} == "create"]]
+          then
+              python assume_role.py
+          elif [[ ${flag} == "destroy"]]
+          then
+              python destroy_CliXX.py
+          fi
   post_build:
     commands:
       - echo Build completed on `date`

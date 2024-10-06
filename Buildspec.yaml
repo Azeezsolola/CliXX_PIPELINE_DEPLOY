@@ -13,21 +13,22 @@ phases:
       - echo starting build on `date`
       - echo "Creating CliXX Security Group for apps and database"
       - |
-          aws sts assume-role --role-arn arn:aws:iam::495599767034:role/Engineer --role-session-name codebuild --duration-seconds 900 --profile management > cred.json
-          acc_key=$(jq -r '.Credentials.AccessKeyId' cred.json)
-          echo $acc_key
+          import boto3,botocore
 
-          sec_key=$(jq -r '.Credentials.SecretAccessKey' cred.json)
-          echo $sec_key
+          sts_client=boto3.client('sts')
 
+          #Calling the assume_role function
+          assumed_role_object=sts_client.assume_role(RoleArn='arn:aws:iam::495599767034:role/Engineer', RoleSessionName='mysession')
 
-          sess_tok=$(jq -r '.Credentials.SessionToken' cred.json)
-          echo $sess_tok
+          credentials=assumed_role_object['Credentials']
 
+          print(credentials)
 
-          export AWS_ACCESS_KEY=$acc_key
-          export AWS_SECRET_ACCESS_KEY=$sec_key
-          export AWS_SESSION_TOKEN=$sess_tok
+          s3=boto3.client('s3',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
+          response = s3.list_buckets(
+          MaxBuckets=123)
+
+          print(response)
       - |
          aws ec2 create-security-group \
          --group-name demo-sg \

@@ -15,10 +15,10 @@ phases:
       - echo "Creating CliXX Security Group for apps and database"
       - |
           flag="destroy"
-          if [[ ${flag} == "create"]]
+          if [[ $flag == 'create' ]]
           then
               python assume_role.py
-          elif [[ ${flag} == "destroy"]]
+          elif [[ $flag == 'destroy' ]]
           then
               python destroy_CliXX.py
           fi

@@ -14,7 +14,7 @@ phases:
       - echo starting build on `date`
       - echo "Creating CliXX Security Group for apps and database"
       - |
-          flag="destroy"
+          flag="create"
           if [[ $flag == 'create' ]]
           then
               python assume_role.py
@@ -25,3 +25,4 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
+

@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import boto3,botocore
+import time
 
 sts_client=boto3.client('sts')
 
@@ -41,7 +42,7 @@ response = rds_client.restore_db_instance_from_db_snapshot(
 )
 print(response)
 
-sleep 300
+time.sleep(300)
 
 
 AWS_REGION = "us-east-1"

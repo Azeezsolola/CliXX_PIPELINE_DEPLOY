@@ -38,6 +38,6 @@ rds=boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_a
 response = rds.delete_db_instance(
     DBInstanceIdentifier='wordpressdbclixx-ecs',
     SkipFinalSnapshot=False,
-    FinalDBSnapshotIdentifier='wordpressdbclixx-ecs-latest',
+    FinalDBSnapshotIdentifier='wordpressdbclixx-ecs-latest2',
     DeleteAutomatedBackups=False
 )

@@ -27,7 +27,7 @@ ec2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_a
 
 response = ec2.terminate_instances(
     InstanceIds=[
-        'i-093df4a3a15d7e3d3',
+        'i-0f78ad3ea0600b168',
     ],
 )
 

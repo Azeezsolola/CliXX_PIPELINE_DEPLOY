@@ -2,6 +2,7 @@
 
 import boto3,botocore
 import time
+from botocore.exceptions import ClientError
 
 try:
 
@@ -28,6 +29,7 @@ try:
     #     )
 
     # print(response)
+    
 
 
     # Create RDS client 

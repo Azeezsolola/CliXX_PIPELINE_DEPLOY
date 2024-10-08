@@ -17,7 +17,7 @@ phases:
           flag="create"
           if [[ $flag == 'create' ]]
           then
-              python deploy_clixx.py
+              python clixx_autoscaling.py
           elif [[ $flag == 'destroy' ]]
           then
               python destroy_CliXX.py

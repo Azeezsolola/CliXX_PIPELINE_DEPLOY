@@ -144,6 +144,8 @@ response = elb.create_load_balancer(
     )
 
 print(response)
+output=response["LoadBalancers"][0]["LoadBalancerArn"]
+print(output)
 
 #time.sleep(300)
 

@@ -123,3 +123,27 @@ response=ec2.create_launch_template(
     )
     
 print(response)
+
+
+
+response = ec2.create_load_balancer(
+    Name='autoscalinglb',
+    Subnets=[
+        'subnet-018e197bd500d943a ','subnet-0ecd44e7315ae879d'
+    ],
+    
+    SecurityGroups=['sg-0fef030fc2befbb1e'],
+    Scheme='internet-facing',
+    Tags=[
+        {
+            'Key': 'OwnerEmail',
+            'Value': 'azeezsolola14+development@outlook.com'
+        },
+    ],
+    Type='application',
+    IpAddressType='ipv4'
+    )
+
+output=response["LoadBalancerArn"]
+print(output)
+

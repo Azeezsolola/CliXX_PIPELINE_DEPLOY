@@ -147,5 +147,24 @@ print(response)
 output=response["LoadBalancers"][0]["LoadBalancerArn"]
 print(output)
 
-#time.sleep(300)
+time.sleep(300)
 
+
+response = elb.create_target_group(
+    Name='clixxautoscalingtg',
+    Protocol='HTTP',
+    ProtocolVersion='HTTP1',
+    Port=80,
+    VpcId='vpc-0c6460b8c3c8fe62f',
+    HealthCheckProtocol='HTTP',
+    HealthCheckEnabled=True,
+    HealthCheckIntervalSeconds=300,
+    HealthCheckTimeoutSeconds=120,
+    HealthyThresholdCount=2,
+    UnhealthyThresholdCount=5,
+    TargetType='instance',
+    
+    IpAddressType='ipv4'
+)
+
+print(response)

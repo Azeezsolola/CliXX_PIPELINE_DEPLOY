@@ -143,6 +143,7 @@ response = elb.create_load_balancer(
     IpAddressType='ipv4'
     )
 
+
 output=response["LoadBalancerArn"]
 print(output)
 

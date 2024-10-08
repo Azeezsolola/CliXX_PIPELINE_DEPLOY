@@ -132,6 +132,7 @@ response = ec2.create_load_balancer(
     Subnets=['subnet-018e197bd500d943a ','subnet-0ecd44e7315ae879d'],
     SecurityGroups=['sg-0fef030fc2befbb1e'],
     Scheme='internet-facing',
+    
     Tags=[
         {
             'Key': 'OwnerEmail',

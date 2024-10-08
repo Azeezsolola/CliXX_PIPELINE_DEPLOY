@@ -126,8 +126,8 @@ response=ec2.create_launch_template(
 print(response)
 
 
-ec2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ec2.create_load_balancer(
+elb=boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = elb.create_load_balancer(
     Name='autoscalinglb',
     Subnets=['subnet-018e197bd500d943a ','subnet-0ecd44e7315ae879d'],
     SecurityGroups=['sg-0fef030fc2befbb1e'],

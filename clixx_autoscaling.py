@@ -121,6 +121,7 @@ response=ec2.create_launch_template(
         'SecurityGroupIds': ['sg-0fef030fc2befbb1e'],
     }
     )
+
     
 print(response)
 

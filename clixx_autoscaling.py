@@ -119,16 +119,6 @@ response=ec2.create_launch_template(
         'InstanceType': 't2.micro',       
         'UserData': encoded_user_data,
         'SecurityGroupIds': ['sg-0fef030fc2befbb1e'],
-        'InstanceRequirements': {
-            'VCpuCount': {
-                'Min': 1,
-                'Max': 3
-            },
-            'MemoryMiB': {
-                'Min': 1,
-                'Max': 3
-            }
-        }
     }
     )
     

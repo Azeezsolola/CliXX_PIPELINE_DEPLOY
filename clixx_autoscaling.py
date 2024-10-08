@@ -116,7 +116,7 @@ response=ec2.create_launch_template(
         'EbsOptimized': True,     
         'ImageId': 'ami-00f251754ac5da7f0',
         'InstanceType': 't2.micro',       
-        'UserData': USER_DATA,
+        'UserData': encoded_user_data,
         'SecurityGroupIds': ['sg-0fef030fc2befbb1e'],
         'InstanceRequirements': {
             'VCpuCount': {

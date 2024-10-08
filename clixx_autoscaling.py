@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import boto3,botocore,base64
+import boto3,botocore,base64,time
 
 
 
@@ -143,6 +143,7 @@ response = elb.create_load_balancer(
     IpAddressType='ipv4'
     )
 
-output=response["LoadBalancerArn"]
-print(output)
+print(response)
+
+#time.sleep(300)
 

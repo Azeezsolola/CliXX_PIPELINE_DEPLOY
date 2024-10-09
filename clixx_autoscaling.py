@@ -39,7 +39,7 @@ time.sleep(300)
 
 
 
-
+#Creating Load balancer 
 
 elb=boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = elb.create_load_balancer(
@@ -65,6 +65,8 @@ print(output)
 #time.sleep(300)
 
 
+
+#Creating Target Group
 response = elb.create_target_group(
     Name='clixxautoscalingtg',
     Protocol='HTTP',
@@ -233,3 +235,6 @@ response=ec2.create_launch_template(
 
     
 print(response)
+
+
+

@@ -31,7 +31,7 @@ response = register.register_domain(
         
         'City': 'manassass',
         
-        'CountryCode': 'VA',
+        'CountryCode': 'US',
         'ZipCode': '20111',
         'PhoneNumber': '+12407964613',
         'Email': 'ifeoluwsolola@gmail.com'},
@@ -46,7 +46,7 @@ response = register.register_domain(
        
         'City': 'manassas',
        
-        'CountryCode': 'VA',
+        'CountryCode': 'US',
         'ZipCode': '20111',
         'PhoneNumber': '+12407964613',
         'Email': 'ifeoluwsolola@gmail.com'},
@@ -61,7 +61,7 @@ response = register.register_domain(
         
         'City': 'manassas',
         
-        'CountryCode': 'VA',
+        'CountryCode': 'US',
         'ZipCode': '20111',
         'PhoneNumber': '+12407964613',
         'Email': 'ifeoluwsolola@gmail.com'},
@@ -79,7 +79,7 @@ response = register.register_domain(
  
         'City': 'manassas',
        
-        'CountryCode': 'VA',
+        'CountryCode': 'US',
         'ZipCode': '20111',
         'PhoneNumber': '+12407964613',
         'Email': 'ifeoluwasolola@gmail.com'},

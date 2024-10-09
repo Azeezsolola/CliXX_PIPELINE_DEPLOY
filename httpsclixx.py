@@ -95,4 +95,6 @@ print(response)
 hosted_zone=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
 response=hosted_zone.list_hosted_zones()
 print(response)
-response["ResponseMetadata"]["HostedZones"]
+response["HostedZones"]
+
+

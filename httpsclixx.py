@@ -97,3 +97,6 @@ response=hosted_zone.list_hosted_zones()
 print(response)
 output=response["HostedZones"]
 print(output)
+
+for x in output:
+    print(x)

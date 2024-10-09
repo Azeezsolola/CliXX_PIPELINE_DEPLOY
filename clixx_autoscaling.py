@@ -121,7 +121,7 @@ sudo yum update -y
 
 #Mounting 
 sudo yum install -y nfs-utils
-FILE_SYSTEM_ID=fs-015ab38635464f250
+FILE_SYSTEM_ID=fs-0c70d522a1a84556d
 AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone )
 REGION=${AVAILABILITY_ZONE:0:-1}
 MOUNT_POINT=/var/www/html
@@ -236,6 +236,49 @@ response=ec2.create_launch_template(
 
     
 print(response)
+launchtempid=response["LaunchTemplate"]["LaunchTemplateId"]
+launchtempname=response["LaunchTemplate"]["LaunchTemplateName"]
 
 
 
+
+autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = autoscaling.create_auto_scaling_group(
+    AutoScalingGroupName='codebuild',
+    
+    LaunchTemplate={
+        'LaunchTemplateId': launchtempid,
+        'LaunchTemplateName': launchtempname
+       
+    },
+    
+    
+    MinSize=1,
+    MaxSize=3,
+    DesiredCapacity=1,
+    DefaultCooldown=300,
+ 
+    LoadBalancerNames=['autoscalinglb'],
+    TargetGroupARNs=[targetgrouparn],
+  
+    HealthCheckGracePeriod=300,
+   
+   
+    Tags=[
+        {
+           
+            'Key': 'Name',
+            'Value': 'codebuild',
+            'PropagateAtLaunch': True
+        }
+    ],
+   
+    
+   
+    DefaultInstanceWarmup=300
+
+ 
+)
+
+
+print(response)

@@ -99,4 +99,12 @@ output=response["HostedZones"]
 print(output)
 
 for x in output:
-    print(x)
+    print(f"ID: {zone['Id']}, Name: {zone['Name']}")
+
+
+domain_name = 'codebuild-azeez.com.'
+for zone in response['HostedZones']:
+    if zone['Name'] == domain_name:
+        print(f"Found hosted zone ID for {domain_name}: {zone['Id']}")
+        output2=zone['Id']
+        print(output)

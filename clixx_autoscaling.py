@@ -44,7 +44,7 @@ print(response)
 
 elb=boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = elb.create_load_balancer(
-    Name='autoscalinglb',
+    Name='autoscalinglb2-azeez',
     Subnets=['subnet-018e197bd500d943a','subnet-0ecd44e7315ae879d'],
     SecurityGroups=['sg-0fef030fc2befbb1e'],
     Scheme='internet-facing',
@@ -69,7 +69,7 @@ time.sleep(300)
 
 #Creating Target Group
 response = elb.create_target_group(
-    Name='clixxautoscalingtg',
+    Name='clixxautoscalingtg2',
     Protocol='HTTP',
     ProtocolVersion='HTTP1',
     Port=80,
@@ -121,7 +121,7 @@ sudo yum update -y
 
 #Mounting 
 sudo yum install -y nfs-utils
-FILE_SYSTEM_ID=fs-09eb43531feaeda63
+FILE_SYSTEM_ID=fs-06ac3884a12805e76
 AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone )
 REGION=${AVAILABILITY_ZONE:0:-1}
 MOUNT_POINT=/var/www/html
@@ -261,7 +261,7 @@ response = autoscaling.create_auto_scaling_group(
     DesiredCapacity=1,
     DefaultCooldown=300,
  
-    LoadBalancerNames=['autoscalinglb'],
+    LoadBalancerNames=['autoscalinglb2-azeez'],
     TargetGroupARNs=[targetgrouparn],
   
     HealthCheckGracePeriod=300,
@@ -279,7 +279,7 @@ response = autoscaling.create_auto_scaling_group(
     
    
     DefaultInstanceWarmup=300,
-     VPCZoneIdentifier='subnet-014c00ad60d4e3316,subnet-018e197bd500d943a'
+     VPCZoneIdentifier='subnet-0ecd44e7315ae879d,subnet-018e197bd500d943a'
 
  
 )

@@ -63,7 +63,7 @@ print(response)
 output=response["LoadBalancers"][0]["LoadBalancerArn"]
 print(output)
 
-#time.sleep(300)
+time.sleep(300)
 
 
 
@@ -121,7 +121,7 @@ sudo yum update -y
 
 #Mounting 
 sudo yum install -y nfs-utils
-FILE_SYSTEM_ID=fs-07640ca8a3d9ca32f
+FILE_SYSTEM_ID=fs-03b436ac3718f3ba4
 AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone )
 REGION=${AVAILABILITY_ZONE:0:-1}
 MOUNT_POINT=/var/www/html

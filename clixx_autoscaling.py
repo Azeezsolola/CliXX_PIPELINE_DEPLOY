@@ -121,7 +121,7 @@ sudo yum update -y
 
 #Mounting 
 sudo yum install -y nfs-utils
-FILE_SYSTEM_ID=fs-08846983957364e96
+FILE_SYSTEM_ID=fs-07ab6f80fbcdf2c34
 AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone )
 REGION=${AVAILABILITY_ZONE:0:-1}
 MOUNT_POINT=/var/www/html
@@ -250,8 +250,8 @@ response = autoscaling.create_auto_scaling_group(
     AutoScalingGroupName='codebuild',
     
     LaunchTemplate={
-        'LaunchTemplateId': launchtempid,
-        'LaunchTemplateName': launchtempname
+        'LaunchTemplateId': launchtempid
+        
        
     },
     

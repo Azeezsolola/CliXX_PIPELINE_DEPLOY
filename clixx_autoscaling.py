@@ -20,7 +20,7 @@ print(credentials)
 
 
 
-"""
+
  # Create RDS client 
 rds_client = boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
 # Restore DB instance from snapshot
@@ -36,7 +36,7 @@ response = rds_client.restore_db_instance_from_db_snapshot(
 print(response)
 
 #time.sleep(300)
-"""
+
 
 #Registering Domain Name 
 register=boto3.client('route53domains',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
@@ -187,18 +187,6 @@ for zone in response['HostedZones']:
 
 
         
-  
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -257,7 +245,7 @@ sudo yum update -y
 
 #Mounting 
 sudo yum install -y nfs-utils
-FILE_SYSTEM_ID=fs-0b884e5289f1745be
+FILE_SYSTEM_ID=fs-0f3ba7b83a83360c7
 AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone )
 REGION=${AVAILABILITY_ZONE:0:-1}
 MOUNT_POINT=/var/www/html

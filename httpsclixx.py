@@ -30,7 +30,7 @@ response = register.register_domain(
         'AddressLine1': '8500 charnwood ct',
         
         'City': 'manassass',
-        'State': 'Virginia',
+        'State': 'VA',
         'CountryCode': 'US',
         'ZipCode': '20111',
         'PhoneNumber': '+12407964613',
@@ -46,7 +46,7 @@ response = register.register_domain(
        
         'City': 'manassas',
        
-        'CountryCode': 'VA',
+        'CountryCode': 'US',
         'ZipCode': '20111',
         'PhoneNumber': '+12407964613',
         'Email': 'ifeoluwsolola@gmail.com'},
@@ -60,7 +60,7 @@ response = register.register_domain(
         'AddressLine1': '8500 charnwood ct',
         
         'City': 'manassas',
-        'State': 'Virginia',
+        'State': 'VA',
         'CountryCode': 'US',
         'ZipCode': '20111',
         'PhoneNumber': '+12407964613',
@@ -78,7 +78,7 @@ response = register.register_domain(
         'AddressLine1': '8500 charnwood ct',
  
         'City': 'manassas',
-        'State': 'Virginia',
+        'State': 'VA',
         'CountryCode': 'US',
         'ZipCode': '20111',
         'PhoneNumber': '+12407964613',

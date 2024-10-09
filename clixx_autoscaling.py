@@ -14,6 +14,11 @@ credentials=assumed_role_object['Credentials']
 print(credentials)
 
 
+
+
+
+
+
 AWS_REGION='us-east-1'
 USER_DATA="""#!/bin/bash
     yum update

@@ -2,6 +2,7 @@
 
 import boto3,botocore,base64,time
 
+AWS_REGION='us-east-1'
 
 
 sts_client=boto3.client('sts')
@@ -120,7 +121,7 @@ sudo yum update -y
 
 #Mounting 
 sudo yum install -y nfs-utils
-FILE_SYSTEM_ID=fs-04f4eafe6b95e9fa3
+FILE_SYSTEM_ID=fs-015ab38635464f250
 AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone )
 REGION=${AVAILABILITY_ZONE:0:-1}
 MOUNT_POINT=/var/www/html

@@ -20,7 +20,7 @@ print(credentials)
 
 
 
-
+"""
  # Create RDS client 
 rds_client = boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
 # Restore DB instance from snapshot
@@ -36,6 +36,7 @@ response = rds_client.restore_db_instance_from_db_snapshot(
 print(response)
 
 #time.sleep(300)
+"""
 
 #Registering Domain Name 
 register=boto3.client('route53domains',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
@@ -158,31 +159,15 @@ response = elb.create_load_balancer(
     )
 
 print(response)
-output=response["LoadBalancers"][0]["LoadBalancerArn"]
-print(output)
+loadbalancerarn=response["LoadBalancers"][0]["LoadBalancerArn"]
+print(loadbalancerarn)
 LBDNS=response["LoadBalancers"][0]["DNSName"]
 print(LBDNS)
 
 time.sleep(300)
 
 
-#Listing Hosted and using for loop to get hosted zone id
-hosted_zone=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
-response=hosted_zone.list_hosted_zones()
-print(response)
-output=response["HostedZones"]
-print(output)
 
-for zone in output:
-    print(f"ID: {zone['Id']}, Name: {zone['Name']}")
-
-
-domain_name = 'codebuild-azeez.com.'
-for zone in response['HostedZones']:
-    if zone['Name'] == domain_name:
-        print(f"Found hosted zone ID for {domain_name}: {zone['Id']}")
-        hostedzoneid=zone['Id']
-        print(hostedzoneid)
 
 
 #Attaching load balance info to subdomain
@@ -236,7 +221,7 @@ print(targetgrouparn)
 
 elb1 = boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response= elb1.create_listener(
-    LoadBalancerArn=output, 
+    LoadBalancerArn=loadbalancerarn, 
     Port=80,
     Protocol='HTTP',
     DefaultActions=[

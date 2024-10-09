@@ -199,29 +199,7 @@ for zone in response['HostedZones']:
 
 
 
-#Attaching load balance info to subdomain
-subdomain_name='dev.codebuild-azeez.com'
-suddomain=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
-response=suddomain.change_resource_record_sets(
-    HostedZoneId=hostedzoneid,
-    ChangeBatch={
-                    'Changes': [
-            {
-                'Action': 'CREATE',
-                'ResourceRecordSet': {
-                    'Name': subdomain_name,
-                    'Type': 'CNAME',  
-                    'TTL': 300,
-                    'ResourceRecords': [
-                        {
-                            'Value': LBDNS
-                        },
-                    ],
-                }
-            }
-        ]
-    }
-)
+
 
 
 
@@ -401,7 +379,6 @@ print(launchtempid)
 
 launchtempname=response["LaunchTemplate"]["LaunchTemplateName"]
 print(launchtempname)
-
 
 
 

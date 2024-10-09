@@ -106,5 +106,30 @@ domain_name = 'codebuild-azeez.com.'
 for zone in response['HostedZones']:
     if zone['Name'] == domain_name:
         print(f"Found hosted zone ID for {domain_name}: {zone['Id']}")
-        output2=zone['Id']
-        print(output2)
+        hostedzoneid=zone['Id']
+        print(hostedzoneid)
+        
+
+subdomain_name='dev.codebuild-azeez.com'   
+    
+suddomain=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
+response=suddomain.route53.change_resource_record_sets(
+    HostedZoneId=hostedzoneid,
+    ChangeBatch={
+                    'Changes': [
+            {
+                'Action': 'CREATE',
+                'ResourceRecordSet': {
+                    'Name': subdomain_name,
+                    'Type': 'CNAME',  
+                    'TTL': 300,
+                    'ResourceRecords': [
+                        {
+                            'Value': 'autoscalinglb2-azeez-538814076.us-east-1.elb.amazonaws.com'
+                        },
+                    ],
+                }
+            }
+        ]
+    }
+)

@@ -153,7 +153,6 @@ print(output)
 for zone in output:
     print(f"ID: {zone['Id']}, Name: {zone['Name']}")
 
-
 domain_name = 'codebuild-azeez.com.'
 for zone in response['HostedZones']:
     if zone['Name'] == domain_name:

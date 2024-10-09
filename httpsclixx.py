@@ -113,7 +113,7 @@ for zone in response['HostedZones']:
 subdomain_name='dev.codebuild-azeez.com'   
     
 suddomain=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
-response=suddomain.route53.change_resource_record_sets(
+response=suddomain.change_resource_record_sets(
     HostedZoneId=hostedzoneid,
     ChangeBatch={
                     'Changes': [

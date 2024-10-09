@@ -127,12 +127,11 @@ domain_name = 'codebuild-azeez.com.'
 for zone in response['HostedZones']:
     if zone['Name'] == domain_name:
         print(f"Found hosted zone ID for {domain_name}: {zone['Id']}")
+        global hostedzoneid
         hostedzoneid=zone['Id']
         print(hostedzoneid)
         
-if zone['Name'] == domain_name:
-    hostedzoneid=zone['Id']
-    print(hostedzoneid)    
+  
 
 
 

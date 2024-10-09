@@ -98,7 +98,7 @@ print(response)
 output=response["HostedZones"]
 print(output)
 
-for x in output:
+for zone in output:
     print(f"ID: {zone['Id']}, Name: {zone['Name']}")
 
 

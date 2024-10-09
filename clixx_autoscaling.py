@@ -112,6 +112,8 @@ response = register.register_domain(
 
 print(response)
 
+new_list=[]
+
 #Listing hosted zone so I can get the zone id
 hosted_zone=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
 response=hosted_zone.list_hosted_zones()
@@ -122,27 +124,17 @@ print(output)
 for zone in output:
     print(f"ID: {zone['Id']}, Name: {zone['Name']}")
 
-"""
+
 domain_name = 'codebuild-azeez.com.'
 for zone in response['HostedZones']:
     if zone['Name'] == domain_name:
         print(f"Found hosted zone ID for {domain_name}: {zone['Id']}")
         global hostedzoneid
         hostedzoneid=zone['Id']
+        new_list.append( hostedzoneid)
         print(hostedzoneid)
-"""
 
-def find_hosted_zone(response):
-    global hostedzoneid  # Declare the global variable
-    domain_name = 'codebuild-azeez.com.'
-    for zone in response['HostedZones']:
-        if zone['Name'] == domain_name:
-            print(f"Found hosted zone ID for {domain_name}: {zone['Id']}")
-            hostedzoneid = zone['Id']  # Assign the value
-            print(hostedzoneid)
 
-# Assuming response is defined here
-find_hosted_zone(response)
 
         
   
@@ -186,7 +178,7 @@ time.sleep(300)
 subdomain_name='dev.codebuild-azeez.com'
 suddomain=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
 response=suddomain.change_resource_record_sets(
-    HostedZoneId=hostedzoneid,
+    HostedZoneId=new_list,
     ChangeBatch={
                     'Changes': [
             {

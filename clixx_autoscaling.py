@@ -58,7 +58,6 @@ response = register.register_domain(
         'PhoneNumber': '+1.2407964613',
         'Email': 'ifeoluwsolola@gmail.com'},
         
-
     RegistrantContact={
         'FirstName': 'Azeez',
         'LastName': 'Solola',

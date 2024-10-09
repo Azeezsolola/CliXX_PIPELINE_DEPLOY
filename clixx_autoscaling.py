@@ -121,7 +121,7 @@ sudo yum update -y
 
 #Mounting 
 sudo yum install -y nfs-utils
-FILE_SYSTEM_ID=fs-06ac3884a12805e76
+FILE_SYSTEM_ID=fs-09bb7f8e95406b686
 AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone )
 REGION=${AVAILABILITY_ZONE:0:-1}
 MOUNT_POINT=/var/www/html
@@ -247,7 +247,7 @@ print(launchtempname)
 
 autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = autoscaling.create_auto_scaling_group(
-    AutoScalingGroupName='codebuild',
+    AutoScalingGroupName='my-auto-scaling-group',
     
     LaunchTemplate={
         'LaunchTemplateId': launchtempid
@@ -261,7 +261,7 @@ response = autoscaling.create_auto_scaling_group(
     DesiredCapacity=1,
     DefaultCooldown=300,
  
-    LoadBalancerNames=['autoscalinglb2-azeez'],
+
     TargetGroupARNs=[targetgrouparn],
   
     HealthCheckGracePeriod=300,

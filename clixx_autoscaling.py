@@ -122,13 +122,13 @@ print(output)
 for zone in output:
     print(f"ID: {zone['Id']}, Name: {zone['Name']}")
 
-
+global hostedzoneid
 hostedzoneid = None  # Initialize it outside the loop
 domain_name = 'codebuild-azeez.com.'
 for zone in response['HostedZones']:
     if zone['Name'] == domain_name:
         print(f"Found hosted zone ID for {domain_name}: {zone['Id']}")
-        global hostedzoneid
+        #global hostedzoneid
         hostedzoneid=zone['Id']
         print(hostedzoneid)
         

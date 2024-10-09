@@ -89,7 +89,7 @@ response = register.register_domain(
 )
 
 print(response)
-"""
+
 
 
 hosted_zone=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
@@ -133,3 +133,24 @@ response=suddomain.change_resource_record_sets(
         ]
     }
 )
+"""
+
+
+elb=boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = elb.create_load_balancer(
+    Name='autoscalinglb2-azeez',
+    Subnets=['subnet-018e197bd500d943a','subnet-0ecd44e7315ae879d'],
+    SecurityGroups=['sg-0fef030fc2befbb1e'],
+    Scheme='internet-facing',
+    
+    Tags=[
+        {
+            'Key': 'OwnerEmail',
+            'Value': 'azeezsolola14+development@outlook.com'
+        },
+    ],
+    Type='application',
+    IpAddressType='ipv4'
+    )
+
+print(response)

@@ -16,8 +16,8 @@ print(credentials)
 
 
 #Registering Domain Name 
-register_domain=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
-response = register_domain.register_domain(
+register=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
+response = register.register_domain(
     DomainName='codebuild-azeez.com',
     
     DurationInYears=1,

@@ -15,6 +15,96 @@ credentials=assumed_role_object['Credentials']
 print(credentials)
 
 
+
+
+#Registering Domain Name 
+register_domain=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
+response = register_domain.register_domain(
+    DomainName='codebuild-azeez.com',
+    
+    DurationInYears=1,
+    AutoRenew=False,
+    AdminContact={
+        'FirstName': 'Azeez',
+        'LastName': 'solola',
+        'ContactType': 'PERSON',
+        'OrganizationName': 'codebuild',
+        'AddressLine1': '8500 charnwood ct',
+        
+        'City': 'manassass',
+        'State': 'Virginia',
+        'CountryCode': 'VA',
+        'ZipCode': '20111',
+        'PhoneNumber': '2407964613',
+        'Email': 'ifeoluwsolola@gmail.com'},
+        
+
+    RegistrantContact={
+        'FirstName': 'Azeez',
+        'LastName': 'Solola',
+        'ContactType': 'PERSON',
+        'OrganizationName': 'codebuild',
+        'AddressLine1': '8500 charnwood ct',
+       
+        'City': 'manassas',
+        'State': 'virginia',
+        'CountryCode': 'VA',
+        'ZipCode': '20111',
+        'PhoneNumber': '2407964613',
+        'Email': 'ifeoluwsolola@gmail.com'},
+        
+
+    TechContact={
+        'FirstName': 'Azeez',
+        'LastName': 'solola',
+        'ContactType': 'PERSON',
+        'OrganizationName': 'codebuild',
+        'AddressLine1': '8500 charnwood ct',
+        
+        'City': 'manassas',
+        'State': 'virginia',
+        'CountryCode': 'VA',
+        'ZipCode': '20111',
+        'PhoneNumber': '2407964613',
+        'Email': 'ifeoluwsolola@gmail.com'},
+        
+
+    PrivacyProtectAdminContact=True,
+    PrivacyProtectRegistrantContact=True,
+    PrivacyProtectTechContact=True,
+    BillingContact={
+        'FirstName': 'Azeez',
+        'LastName': 'solola',
+        'ContactType': 'PERSON',
+        'OrganizationName': 'codebuild',
+        'AddressLine1': '8500 charnwood ct',
+ 
+        'City': 'manassas',
+        'State': 'virginia',
+        'CountryCode': 'VA',
+        'ZipCode': '20111',
+        'PhoneNumber': '2407964613',
+        'Email': 'ifeoluwasolola@gmail.com'},
+        
+
+    PrivacyProtectBillingContact=True
+)
+
+print(response)
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
  # Create RDS client 
 rds_client = boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
 # Restore DB instance from snapshot
@@ -228,7 +318,8 @@ response=ec2.create_launch_template(
     LaunchTemplateData={
         'EbsOptimized': True,     
         'ImageId': 'ami-00f251754ac5da7f0',
-        'InstanceType': 't2.micro',       
+        'InstanceType': 't2.micro',  
+        'KeyName': 'Azeez10',     
         'UserData': encoded_user_data,
         'SecurityGroupIds': ['sg-0fef030fc2befbb1e'],
     }
@@ -286,3 +377,4 @@ response = autoscaling.create_auto_scaling_group(
 
 
 print(response)
+"""

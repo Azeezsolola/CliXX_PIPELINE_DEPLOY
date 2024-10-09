@@ -107,4 +107,4 @@ for zone in response['HostedZones']:
     if zone['Name'] == domain_name:
         print(f"Found hosted zone ID for {domain_name}: {zone['Id']}")
         output2=zone['Id']
-        print(output)
+        print(output2)

@@ -161,10 +161,14 @@ response = elb.create_load_balancer(
 print(response)
 output=response["LoadBalancers"][0]["LoadBalancerArn"]
 print(output)
+LBDNS=response["LoadBalancers"][0]["DNSName"]
+print(LBDNS)
 
 time.sleep(300)
 
+
 #Attaching load balance info to subdomain
+subdomain_name='dev.codebuild-azeez.com'
 suddomain=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
 response=suddomain.change_resource_record_sets(
     HostedZoneId=hostedzoneid,
@@ -178,7 +182,7 @@ response=suddomain.change_resource_record_sets(
                     'TTL': 300,
                     'ResourceRecords': [
                         {
-                            'Value': 'autoscalinglb2-azeez-538814076.us-east-1.elb.amazonaws.com'
+                            'Value': LBDNS
                         },
                     ],
                 }
@@ -243,7 +247,7 @@ sudo yum update -y
 
 #Mounting 
 sudo yum install -y nfs-utils
-FILE_SYSTEM_ID=fs-09bb7f8e95406b686
+FILE_SYSTEM_ID=fs-0715c47f5ca088a12
 AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone )
 REGION=${AVAILABILITY_ZONE:0:-1}
 MOUNT_POINT=/var/www/html
@@ -301,7 +305,8 @@ else
     echo "sed was not done"
 fi
 
-DNS=$(curl http://169.254.169.254/latest/meta-data/public-hostname)
+#DNS=$(curl http://169.254.169.254/latest/meta-data/public-hostname)
+DNS=subdomain_name
 echo $DNS
 
 output_variable=$(mysql -u wordpressuser -p -h wordpressdbclixx-ecs.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123 -sse "select option_value from wp_options where option_value like 'CliXX-APP-%';")

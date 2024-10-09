@@ -245,7 +245,7 @@ sudo yum update -y
 
 #Mounting 
 sudo yum install -y nfs-utils
-FILE_SYSTEM_ID=fs-0f3ba7b83a83360c7
+FILE_SYSTEM_ID=fs-010ac4a6ce896ddae
 AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone )
 REGION=${AVAILABILITY_ZONE:0:-1}
 MOUNT_POINT=/var/www/html
@@ -304,7 +304,7 @@ else
 fi
 
 #DNS=$(curl http://169.254.169.254/latest/meta-data/public-hostname)
-DNS=subdomain_name
+DNS='dev.codebuild-azeez.com'
 echo $DNS
 
 output_variable=$(mysql -u wordpressuser -p -h wordpressdbclixx-ecs.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123 -sse "select option_value from wp_options where option_value like 'CliXX-APP-%';")

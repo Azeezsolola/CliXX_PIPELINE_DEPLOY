@@ -147,7 +147,7 @@ print(response)
 output=response["LoadBalancers"][0]["LoadBalancerArn"]
 print(output)
 
-time.sleep(300)
+#time.sleep(300)
 
 
 response = elb.create_target_group(
@@ -167,4 +167,24 @@ response = elb.create_target_group(
     IpAddressType='ipv4'
 )
 
-print(response)
+targetgrouparn=response['TargetGroups'][0]['TargetGroupArn']
+print(targetgrouparn)
+
+
+
+elb1 = boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response= elb1.create_listener(
+    LoadBalancerArn=output, 
+    Port=80,
+    Protocol='HTTP',
+    DefaultActions=[
+        {
+            'Type': 'forward',
+            'TargetGroupArn': targetgrouparn  
+        }
+    ]
+)
+
+listener_arn = response['Listeners'][0]['ListenerArn']
+print(listener_arn)
+

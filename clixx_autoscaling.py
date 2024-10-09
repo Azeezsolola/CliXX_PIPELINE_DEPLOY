@@ -369,7 +369,6 @@ launchtempname=response["LaunchTemplate"]["LaunchTemplateName"]
 print(launchtempname)
 
 
-
 autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = autoscaling.create_auto_scaling_group(
     AutoScalingGroupName='my-auto-scaling-group',

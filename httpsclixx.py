@@ -153,4 +153,6 @@ response = elb.create_load_balancer(
     IpAddressType='ipv4'
     )
 
-print(response)
+#print(response)
+LBDNS=response["LoadBalancers"][0]["DNSName"]
+print(LBDNS)

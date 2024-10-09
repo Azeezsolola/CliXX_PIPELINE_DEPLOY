@@ -29,7 +29,7 @@ response = rds_client.restore_db_instance_from_db_snapshot(
     )
 print(response)
 
-time.sleep(300)
+#time.sleep(300)
 
 
 

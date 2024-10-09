@@ -121,7 +121,7 @@ sudo yum update -y
 
 #Mounting 
 sudo yum install -y nfs-utils
-FILE_SYSTEM_ID=fs-07ab6f80fbcdf2c34
+FILE_SYSTEM_ID=fs-07640ca8a3d9ca32f
 AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone )
 REGION=${AVAILABILITY_ZONE:0:-1}
 MOUNT_POINT=/var/www/html
@@ -278,7 +278,8 @@ response = autoscaling.create_auto_scaling_group(
    
     
    
-    DefaultInstanceWarmup=300
+    DefaultInstanceWarmup=300,
+     VPCZoneIdentifier='subnet-014c00ad60d4e3316,subnet-018e197bd500d943a'
 
  
 )

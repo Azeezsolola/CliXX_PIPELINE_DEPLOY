@@ -123,6 +123,7 @@ for zone in output:
     print(f"ID: {zone['Id']}, Name: {zone['Name']}")
 
 
+hostedzoneid = None  # Initialize it outside the loop
 domain_name = 'codebuild-azeez.com.'
 for zone in response['HostedZones']:
     if zone['Name'] == domain_name:

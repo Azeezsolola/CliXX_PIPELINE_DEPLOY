@@ -167,6 +167,25 @@ print(LBDNS)
 time.sleep(300)
 
 
+#Listing Hosted and using for loop to get hosted zone id
+hosted_zone=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
+response=hosted_zone.list_hosted_zones()
+print(response)
+output=response["HostedZones"]
+print(output)
+
+for zone in output:
+    print(f"ID: {zone['Id']}, Name: {zone['Name']}")
+
+
+domain_name = 'codebuild-azeez.com.'
+for zone in response['HostedZones']:
+    if zone['Name'] == domain_name:
+        print(f"Found hosted zone ID for {domain_name}: {zone['Id']}")
+        hostedzoneid=zone['Id']
+        print(hostedzoneid)
+
+
 #Attaching load balance info to subdomain
 subdomain_name='dev.codebuild-azeez.com'
 suddomain=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
@@ -247,7 +266,7 @@ sudo yum update -y
 
 #Mounting 
 sudo yum install -y nfs-utils
-FILE_SYSTEM_ID=fs-0715c47f5ca088a12
+FILE_SYSTEM_ID=fs-0b884e5289f1745be
 AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone )
 REGION=${AVAILABILITY_ZONE:0:-1}
 MOUNT_POINT=/var/www/html

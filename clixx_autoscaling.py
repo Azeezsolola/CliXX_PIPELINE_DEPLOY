@@ -112,35 +112,6 @@ response = register.register_domain(
 
 print(response)
 
-new_list=[]
-
-#Listing hosted zone so I can get the zone id
-hosted_zone=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
-response=hosted_zone.list_hosted_zones()
-print(response)
-output=response["HostedZones"]
-print(output)
-
-for zone in output:
-    print(f"ID: {zone['Id']}, Name: {zone['Name']}")
-
-
-domain_name = 'codebuild-azeez.com.'
-for zone in response['HostedZones']:
-    if zone['Name'] == domain_name:
-        print(f"Found hosted zone ID for {domain_name}: {zone['Id']}")
-        global hostedzoneid
-        hostedzoneid=zone['Id']
-        new_list.append( hostedzoneid)
-        print(hostedzoneid)
-
-
-
-        
-  
-
-
-
 
 
 #Creating Load balancer 
@@ -172,13 +143,68 @@ time.sleep(300)
 
 
 
+#Listing hosted zone so I can get the zone id
+hosted_zone=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
+response=hosted_zone.list_hosted_zones()
+print(response)
+output=response["HostedZones"]
+print(output)
+
+for zone in output:
+    print(f"ID: {zone['Id']}, Name: {zone['Name']}")
+
+
+domain_name = 'codebuild-azeez.com.'
+for zone in response['HostedZones']:
+    if zone['Name'] == domain_name:
+        print(f"Found hosted zone ID for {domain_name}: {zone['Id']}")
+        global hostedzoneid
+        hostedzoneid=zone['Id']
+        
+        print(hostedzoneid)
+        #Attaching load balance info to subdomain
+        subdomain_name='dev.codebuild-azeez.com'
+        suddomain=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
+        response=suddomain.change_resource_record_sets(
+        HostedZoneId=hostedzoneid,
+        ChangeBatch={
+                        'Changes': [
+                {
+                            'Action': 'CREATE',
+                            'ResourceRecordSet': {
+                            'Name': subdomain_name,
+                            'Type': 'CNAME',  
+                            'TTL': 300,
+                            'ResourceRecords': [
+                         {
+                            'Value': LBDNS
+                        },
+                        ],
+                    }
+                }
+            ]
+        }
+        )
+
+
+        
+  
+
+
+
+
+
+
+
+
+
 
 
 #Attaching load balance info to subdomain
 subdomain_name='dev.codebuild-azeez.com'
 suddomain=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
 response=suddomain.change_resource_record_sets(
-    HostedZoneId=new_list,
+    HostedZoneId=hostedzoneid,
     ChangeBatch={
                     'Changes': [
             {

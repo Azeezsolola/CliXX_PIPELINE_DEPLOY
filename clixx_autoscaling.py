@@ -333,5 +333,4 @@ response = autoscaling.create_auto_scaling_group(
  
 )
 
-
 print(response)

@@ -45,14 +45,14 @@ print(credentials)
 # )
 
 
-
+"""
 #Deleting RDS
 rds_client=boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = rds_client.delete_db_instance(
     DBInstanceIdentifier='wordpressdbclixx-ecs2',
     SkipFinalSnapshot=True
     )
-
+"""
 
 #Deleting Load Balancer
 elb=boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)

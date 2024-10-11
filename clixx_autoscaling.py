@@ -146,6 +146,43 @@ response = route53.change_resource_record_sets(
 print(response)
 
 
+efs=boto3.client('efs',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+# Create a file system
+response = efs.create_file_system(
+    CreationToken='devfs', 
+    PerformanceMode='generalPurpose',  
+    Encrypted=False,  
+    ThroughputMode='elastic',  
+    Backup=False,  
+    Tags=[
+        {
+            'Key': 'Name',  
+            'Value': 'azeezefs'
+        },
+    ]
+)
+
+print(response)
+filesystemid=response["FileSystemId"]
+print(filesystemid)
+
+
+
+#Attaching Security group to efs 
+filesystemid=response["FileSystemId"]
+security_group_id='sg-0fef030fc2befbb1e'
+subnet_ids = ['subnet-018e197bd500d943a', 'subnet-014c00ad60d4e3316','subnet-02b9ffd94e0125a6c','subnet-0b2c4dafb82d1fff4','subnet-0ecd44e7315ae879d','subnet-032c21a79124f42df']
+mounttarget=boto3.client('efs',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+for subnet_id in subnet_ids:
+  response=mounttarget.create_mount_target(
+        FileSystemId=filesystemid,
+        SubnetId=subnet_id,
+        SecurityGroups=[security_group_id]
+    )
+    
+
+
+
 
 
 
@@ -168,7 +205,7 @@ sudo yum update -y
 
 #Mounting 
 sudo yum install -y nfs-utils
-FILE_SYSTEM_ID=fs-0b8eb9023938d2c0a
+FILE_SYSTEM_ID=filesystemid
 AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone )
 REGION=${AVAILABILITY_ZONE:0:-1}
 MOUNT_POINT=/var/www/html

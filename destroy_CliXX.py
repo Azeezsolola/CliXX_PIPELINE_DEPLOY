@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import boto3,botocore
+import boto3,botocore,time
 
 AWS_REGION='us-east-1'
 
@@ -53,7 +53,7 @@ response = rds_client.delete_db_instance(
     SkipFinalSnapshot=True
     )
 """
-
+"""
 #Deleting Load Balancer
 elb=boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = elb.delete_load_balancer(
@@ -61,7 +61,7 @@ response = elb.delete_load_balancer(
 )
 
 time.sleep(60)
-
+"""
 #Deleting target group
 elb2=boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = elb2.delete_target_group(

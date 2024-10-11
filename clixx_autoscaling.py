@@ -66,6 +66,9 @@ print(loadbalancerarn)
 LBDNS=response["LoadBalancers"][0]["DNSName"]
 print(LBDNS)
 
+ELBZONEID=response["LoadBalancers"][0]["CanonicalHostedZoneId"]
+print(ELBZONEID)
+
 time.sleep(300)
 
 
@@ -129,12 +132,13 @@ response = route53.change_resource_record_sets(
                 'ResourceRecordSet': {
                     'Name': 'dev.clixx-azeez.com',
                     'Type': 'A',
+                    'AliasTarget': {
+                            'HostedZoneId': ELBZONEID,  
+                            'DNSName': 'autoscalinglb2-azeez-642967303.us-east-1.elb.amazonaws.com',
+                            'EvaluateTargetHealth': False
+                        },
                     'TTL': 300,
-                    'ResourceRecords': [
-                        {
-                            'Value': LBDNS  
-                        }
-                    ]
+                    
                 }
             }
         ]

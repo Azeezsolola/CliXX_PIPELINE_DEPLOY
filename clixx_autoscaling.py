@@ -22,10 +22,10 @@ print(credentials)
 
 
  # Create RDS client 
-rds_client = boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
+rds_client = boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 # Restore DB instance from snapshot
 response = rds_client.restore_db_instance_from_db_snapshot(
-    DBInstanceIdentifier='wordpressdbclixx-ecs',
+    DBInstanceIdentifier='wordpressdbclixx-ecs2',
     DBSnapshotIdentifier='arn:aws:rds:us-east-1:577701061234:snapshot:wordpressdbclixx-ecs-snapshot',
     DBInstanceClass='db.m6gd.large',
     AvailabilityZone='us-east-1a',
@@ -220,7 +220,7 @@ cp -r CliXX_Retail_Repository/* /var/www/html
  
 ## Allow wordpress to use Permalinks
 sudo sed -i '151s/None/All/' /etc/httpd/conf/httpd.conf
-sudo sed -i 's/wordpress-db.cc5iigzknvxd.us-east-1.rds.amazonaws.com/wordpressdbclixx-ecs.cn2yqqwoac4e.us-east-1.rds.amazonaws.com/' /var/www/html/wp-config.php
+sudo sed -i 's/wordpress-db.cc5iigzknvxd.us-east-1.rds.amazonaws.com/wordpressdbclixx-ecs2.cn2yqqwoac4e.us-east-1.rds.amazonaws.com/' /var/www/html/wp-config.php
 if [ $? == 0 ]
 then
     echo "sed was done"
@@ -232,7 +232,7 @@ fi
 DNS='dev.codebuild-azeez.com'
 echo $DNS
 
-output_variable=$(mysql -u wordpressuser -p -h wordpressdbclixx-ecs.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123 -sse "select option_value from wp_options where option_value like 'CliXX-APP-%';")
+output_variable=$(mysql -u wordpressuser -p -h wordpressdbclixx-ecs2.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123 -sse "select option_value from wp_options where option_value like 'CliXX-APP-%';")
 echo $output_variable
 
 if [ output_variable == ${DNS} ]
@@ -241,7 +241,7 @@ then
 else
     echo "DNS Address is not in the table"
     #Logging DB
-    mysql -u wordpressuser -p -h wordpressdbclixx-ecs.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123<<EOF
+    mysql -u wordpressuser -p -h wordpressdbclixx-ecs2.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123<<EOF
     UPDATE wp_options SET option_value ='${DNS}' WHERE option_value LIKE 'CliXX-APP-%';
 EOF
 fi

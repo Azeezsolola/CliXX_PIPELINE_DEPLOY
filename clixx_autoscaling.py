@@ -122,7 +122,7 @@ response = elb1.create_listener(
     Protocol='HTTPS',
     Certificates=[  
         {
-            'CertificateArn': '0e1f0821-5af3-4457-9273-1c3d33d5fb79'  
+            'CertificateArn': 'arn:aws:acm:us-east-1:495599767034:certificate/c4b0e3bc-b06f-42f5-b26b-e631e9720f8a'  
         }
     ],
     DefaultActions=[
@@ -292,7 +292,7 @@ else
 fi
 
 #DNS=$(curl http://169.254.169.254/latest/meta-data/public-hostname)
-DNS='dev.clixx-azeez.com'
+DNS='https://dev.clixx-azeez.com'
 echo $DNS
 
 output_variable=$(mysql -u wordpressuser -p -h wordpressdbclixx-ecs2.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123 -sse "select option_value from wp_options where option_value like 'CliXX-APP-%';")

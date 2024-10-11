@@ -134,11 +134,10 @@ response = route53.change_resource_record_sets(
                     'Type': 'A',
                     'AliasTarget': {
                             'HostedZoneId': ELBZONEID,  
-                            'DNSName': 'autoscalinglb2-azeez-642967303.us-east-1.elb.amazonaws.com',
+                            'DNSName': LBDNS,
                             'EvaluateTargetHealth': False
-                        },
-                    'TTL': 300,
-                    
+                        }
+ 
                 }
             }
         ]

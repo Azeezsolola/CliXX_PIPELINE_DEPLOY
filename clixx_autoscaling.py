@@ -134,9 +134,6 @@ response = certs.add_listener_certificates(
 
 
 
-
-
-
 #tie domain name with lb DNS
 route53=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = route53.change_resource_record_sets(

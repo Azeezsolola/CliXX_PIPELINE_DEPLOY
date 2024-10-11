@@ -272,7 +272,7 @@ encoded_user_data = base64.b64encode(USER_DATA.encode('utf-8')).decode('utf-8')
 ec2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response=ec2.create_launch_template(
     DryRun=False,
-    LaunchTemplateName='codebuild',
+    LaunchTemplateName='oloyede',
     VersionDescription='webserver1',
     LaunchTemplateData={
         'EbsOptimized': True,     

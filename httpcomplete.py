@@ -119,26 +119,8 @@ print(listener_arn)
 
 
 
-#Adding Certs to listener
-certs = boto3.client('elbv2')
-response = certs.add_listener_certificates(
-    ListenerArn=listener_arn,
-    Certificates=[
-        {
-            'CertificateArn': '0e1f0821-5af3-4457-9273-1c3d33d5fb79',
-            'IsDefault': True
-        }
-    ]
-)
-
-
-
-
-
-
-
-#tie domain name with lb DNS
 route53=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+
 response = route53.change_resource_record_sets(
     HostedZoneId='Z0099082ZFVZUBLTJX9D',
     ChangeBatch={

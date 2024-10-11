@@ -100,11 +100,31 @@ print(targetgrouparn)
 
 
 
+# elb1 = boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+# response= elb1.create_listener(
+#     LoadBalancerArn=loadbalancerarn, 
+#     Port=443,
+#     Protocol='HTTPS',
+#     DefaultActions=[
+#         {
+#             'Type': 'forward',
+#             'TargetGroupArn': targetgrouparn  
+#         }
+#     ]
+# )
+
+
+
 elb1 = boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response= elb1.create_listener(
+response = elb1.create_listener(
     LoadBalancerArn=loadbalancerarn, 
     Port=443,
     Protocol='HTTPS',
+    Certificates=[  
+        {
+            'CertificateArn': '0e1f0821-5af3-4457-9273-1c3d33d5fb79'  
+        }
+    ],
     DefaultActions=[
         {
             'Type': 'forward',
@@ -112,24 +132,23 @@ response= elb1.create_listener(
         }
     ]
 )
-
 listener_arn = response['Listeners'][0]['ListenerArn']
 print(listener_arn)
 
 
-time.sleep(120)
+#time.sleep(120)
 
-#Adding Certs to listener
-certs = boto3.client('elbv2')
-response = certs.add_listener_certificates(
-    ListenerArn=listener_arn,
-    Certificates=[
-        {
-            'CertificateArn': '0e1f0821-5af3-4457-9273-1c3d33d5fb79',
-            'IsDefault': True
-        }
-    ]
-)
+# #Adding Certs to listener
+# certs = boto3.client('elbv2')
+# response = certs.add_listener_certificates(
+#     ListenerArn=listener_arn,
+#     Certificates=[
+#         {
+#             'CertificateArn': '0e1f0821-5af3-4457-9273-1c3d33d5fb79',
+#             'IsDefault': True
+#         }
+#     ]
+# )
 
 
 

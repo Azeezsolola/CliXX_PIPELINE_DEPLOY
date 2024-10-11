@@ -151,7 +151,7 @@ efs=boto3.client('efs',aws_access_key_id=credentials['AccessKeyId'],aws_secret_a
 response = efs.create_file_system(
     CreationToken='devfs', 
     PerformanceMode='generalPurpose',  
-    Encrypted=False,  
+    Encrypted=True,  
     ThroughputMode='elastic',  
     Backup=False,  
     Tags=[
@@ -166,6 +166,7 @@ print(response)
 filesystemid=response["FileSystemId"]
 print(filesystemid)
 
+time.sleep(300)
 
 
 #Attaching Security group to efs 

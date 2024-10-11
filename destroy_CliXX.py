@@ -2,6 +2,8 @@
 
 import boto3,botocore
 
+AWS_REGION='us-east-1'
+
 sts_client=boto3.client('sts')
 
 #Calling the assume_role function

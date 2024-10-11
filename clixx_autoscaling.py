@@ -100,18 +100,6 @@ print(targetgrouparn)
 
 
 
-# elb1 = boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-# response= elb1.create_listener(
-#     LoadBalancerArn=loadbalancerarn, 
-#     Port=443,
-#     Protocol='HTTPS',
-#     DefaultActions=[
-#         {
-#             'Type': 'forward',
-#             'TargetGroupArn': targetgrouparn  
-#         }
-#     ]
-# )
 
 
 
@@ -136,19 +124,7 @@ listener_arn = response['Listeners'][0]['ListenerArn']
 print(listener_arn)
 
 
-#time.sleep(120)
 
-# #Adding Certs to listener
-# certs = boto3.client('elbv2')
-# response = certs.add_listener_certificates(
-#     ListenerArn=listener_arn,
-#     Certificates=[
-#         {
-#             'CertificateArn': '0e1f0821-5af3-4457-9273-1c3d33d5fb79',
-#             'IsDefault': True
-#         }
-#     ]
-# )
 
 
 
@@ -295,7 +271,7 @@ fi
 DNS='https://dev.clixx-azeez.com'
 echo $DNS
 
-output_variable=$(mysql -u wordpressuser -p -h wordpressdbclixx-ecs2.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123 -sse "select option_value from wp_options where option_value like 'CliXX-APP-%';")
+output_variable=$(mysql -u wordpressuser -p -h wordpressdbclixx-ecs2.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -p'W3lcome123' -sse "select option_value from wp_options where option_value like 'CliXX-APP-%';")
 echo $output_variable
 
 if [ output_variable == ${DNS} ]

@@ -194,7 +194,6 @@ for subnet_id in subnet_ids:
 
 
 
-
 #Creating Launch Template 
 
 AWS_REGION='us-east-1'

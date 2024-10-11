@@ -20,21 +20,21 @@ print(credentials)
 
 
 
-#  # Create RDS client 
-# rds_client = boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-# # Restore DB instance from snapshot
-# response = rds_client.restore_db_instance_from_db_snapshot(
-#     DBInstanceIdentifier='wordpressdbclixx-ecs2',
-#     DBSnapshotIdentifier='arn:aws:rds:us-east-1:577701061234:snapshot:wordpressdbclixx-ecs-snapshot',
-#     DBInstanceClass='db.m6gd.large',
-#     AvailabilityZone='us-east-1a',
-#     MultiAZ=False,
-#     PubliclyAccessible=True,
-#     VpcSecurityGroupIds=['sg-0fef030fc2befbb1e']
-#     )
-# print(response)
+ # Create RDS client 
+rds_client = boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+# Restore DB instance from snapshot
+response = rds_client.restore_db_instance_from_db_snapshot(
+    DBInstanceIdentifier='wordpressdbclixx-ecs2',
+    DBSnapshotIdentifier='arn:aws:rds:us-east-1:577701061234:snapshot:wordpressdbclixx-ecs-snapshot',
+    DBInstanceClass='db.m6gd.large',
+    AvailabilityZone='us-east-1a',
+    MultiAZ=False,
+    PubliclyAccessible=True,
+    VpcSecurityGroupIds=['sg-0fef030fc2befbb1e']
+    )
+print(response)
 
-# time.sleep(600)
+time.sleep(600)
 
 
 
@@ -168,7 +168,7 @@ sudo yum update -y
 
 #Mounting 
 sudo yum install -y nfs-utils
-FILE_SYSTEM_ID=fs-040434cebdbb4febe
+FILE_SYSTEM_ID=fs-0b8eb9023938d2c0a
 AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone )
 REGION=${AVAILABILITY_ZONE:0:-1}
 MOUNT_POINT=/var/www/html
@@ -227,7 +227,7 @@ else
 fi
 
 #DNS=$(curl http://169.254.169.254/latest/meta-data/public-hostname)
-DNS='dev.codebuild-azeez.com'
+DNS='dev.clixx-azeez.com'
 echo $DNS
 
 output_variable=$(mysql -u wordpressuser -p -h wordpressdbclixx-ecs2.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123 -sse "select option_value from wp_options where option_value like 'CliXX-APP-%';")
@@ -293,7 +293,7 @@ print(launchtempname)
 
 
 
-
+#Creating autoscaling
 autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = autoscaling.create_auto_scaling_group(
     AutoScalingGroupName='my-auto-scaling-group',

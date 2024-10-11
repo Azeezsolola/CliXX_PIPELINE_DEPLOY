@@ -103,8 +103,8 @@ print(targetgrouparn)
 elb1 = boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response= elb1.create_listener(
     LoadBalancerArn=loadbalancerarn, 
-    Port=80,
-    Protocol='HTTP',
+    Port=443,
+    Protocol='HTTPS',
     DefaultActions=[
         {
             'Type': 'forward',

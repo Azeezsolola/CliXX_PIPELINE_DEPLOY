@@ -117,7 +117,7 @@ listener_arn = response['Listeners'][0]['ListenerArn']
 print(listener_arn)
 
 
-
+time.sleep(120)
 
 #Adding Certs to listener
 certs = boto3.client('elbv2')

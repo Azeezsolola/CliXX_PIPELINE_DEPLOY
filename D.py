@@ -20,7 +20,7 @@ print(credentials)
 
 
 
-
+"""
  # Create RDS client 
 rds_client = boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
 # Restore DB instance from snapshot
@@ -35,7 +35,109 @@ response = rds_client.restore_db_instance_from_db_snapshot(
     )
 print(response)
 
-time.sleep(600)
+#time.sleep(300)
+"""
+
+#Registering Domain Name 
+register=boto3.client('route53domains',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
+response = register.register_domain(
+    DomainName='codebuild-azeez.com',
+    
+    DurationInYears=1,
+    AutoRenew=False,
+    AdminContact={
+        'FirstName': 'Azeez',
+        'LastName': 'solola',
+        'ContactType': 'PERSON',
+        'OrganizationName': 'codebuild',
+        'AddressLine1': '8500 charnwood ct',
+        
+        'City': 'manassass',
+        'State': 'VA',
+        'CountryCode': 'US',
+        'ZipCode': '20111',
+        'PhoneNumber': '+1.2407964613',
+        'Email': 'ifeoluwsolola@gmail.com'},
+        
+    RegistrantContact={
+        'FirstName': 'Azeez',
+        'LastName': 'Solola',
+        'ContactType': 'PERSON',
+        'OrganizationName': 'codebuild',
+        'AddressLine1': '8500 charnwood ct',
+       
+        'City': 'manassas',
+        'State': 'VA',
+        'CountryCode': 'US',
+        'ZipCode': '20111',
+        'PhoneNumber': '+1.2407964613',
+        'Email': 'ifeoluwsolola@gmail.com'},
+        
+
+    TechContact={
+        'FirstName': 'Azeez',
+        'LastName': 'solola',
+        'ContactType': 'PERSON',
+        'OrganizationName': 'codebuild',
+        'AddressLine1': '8500 charnwood ct',
+        
+        'City': 'manassas',
+        'State': 'VA',
+        'CountryCode': 'US',
+        'ZipCode': '20111',
+        'PhoneNumber': '+1.2407964613',
+        'Email': 'ifeoluwsolola@gmail.com'},
+        
+
+    PrivacyProtectAdminContact=True,
+    PrivacyProtectRegistrantContact=True,
+    PrivacyProtectTechContact=True,
+    BillingContact={
+        'FirstName': 'Azeez',
+        'LastName': 'solola',
+        'ContactType': 'PERSON',
+        'OrganizationName': 'codebuild',
+        'AddressLine1': '8500 charnwood ct',
+ 
+        'City': 'manassas',
+        'State': 'VA',
+        'CountryCode': 'US',
+        'ZipCode': '20111',
+        'PhoneNumber': '+1.2407964613',
+        'Email': 'ifeoluwasolola@gmail.com'},
+        
+
+    PrivacyProtectBillingContact=True
+)
+
+print(response)
+
+
+
+#Listing hosted zone so I can get the zone id
+hosted_zone=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
+response=hosted_zone.list_hosted_zones()
+print(response)
+output=response["HostedZones"]
+print(output)
+
+for zone in output:
+    print(f"ID: {zone['Id']}, Name: {zone['Name']}")
+
+
+domain_name = 'codebuild-azeez.com.'
+for zone in response['HostedZones']:
+    if zone['Name'] == domain_name:
+        print(f"Found hosted zone ID for {domain_name}: {zone['Id']}")
+        global hostedzoneid
+        hostedzoneid=zone['Id']
+        
+        print(hostedzoneid)
+
+
+
+        
+  
 
 
 
@@ -72,6 +174,29 @@ time.sleep(300)
 
 
 
+#Attaching load balance info to subdomain
+subdomain_name='dev.codebuild-azeez.com'
+suddomain=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'])
+response=suddomain.change_resource_record_sets(
+    HostedZoneId=hostedzoneid,
+    ChangeBatch={
+                    'Changes': [
+            {
+                'Action': 'CREATE',
+                'ResourceRecordSet': {
+                    'Name': subdomain_name,
+                    'Type': 'CNAME',  
+                    'TTL': 300,
+                    'ResourceRecords': [
+                        {
+                            'Value': LBDNS
+                        },
+                    ],
+                }
+            }
+        ]
+    }
+)
 
 
 
@@ -117,47 +242,6 @@ print(listener_arn)
 
 
 
-route53=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-
-response = route53.change_resource_record_sets(
-    HostedZoneId='Z0099082ZFVZUBLTJX9D',
-    ChangeBatch={
-        'Comment': 'update_DNS',
-        'Changes': [
-            {
-                'Action': 'UPSERT',
-                'ResourceRecordSet': {
-                    'Name': 'dev.clixx-azeez.com',
-                    'Type': 'A',
-                    'TTL': 300,
-                    'ResourceRecords': [
-                        {
-                            'Value': LBDNS  
-                        }
-                    ]
-                }
-            }
-        ]
-    }
-)
-
-print(response)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #Creating Launch Template 
 
 AWS_REGION='us-east-1'
@@ -170,7 +254,7 @@ sudo yum update -y
 
 #Mounting 
 sudo yum install -y nfs-utils
-FILE_SYSTEM_ID=fs-04bcc9a6a7dd99a56
+FILE_SYSTEM_ID=fs-0b884e5289f1745be
 AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone )
 REGION=${AVAILABILITY_ZONE:0:-1}
 MOUNT_POINT=/var/www/html
@@ -229,7 +313,7 @@ else
 fi
 
 #DNS=$(curl http://169.254.169.254/latest/meta-data/public-hostname)
-DNS='dev.codebuild-azeez.com'
+DNS=subdomain_name
 echo $DNS
 
 output_variable=$(mysql -u wordpressuser -p -h wordpressdbclixx-ecs.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123 -sse "select option_value from wp_options where option_value like 'CliXX-APP-%';")
@@ -292,6 +376,8 @@ print(launchtempid)
 
 launchtempname=response["LaunchTemplate"]["LaunchTemplateName"]
 print(launchtempname)
+
+
 
 
 autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)

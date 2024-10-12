@@ -31,7 +31,7 @@ time.sleep(200)
 #Deleting Load Balancer
 elb=boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = elb.delete_load_balancer(
-    LoadBalancerArn='arn:aws:elasticloadbalancing:us-east-1:495599767034:loadbalancer/app/autoscalinglb2-azeez/df262f1558270169'
+    LoadBalancerArn='arn:aws:elasticloadbalancing:us-east-1:495599767034:loadbalancer/app/autoscalinglb2-azeez/188e66b3c2e4ec62'
 )
 
 time.sleep(60)
@@ -39,16 +39,16 @@ time.sleep(60)
 #Deleting target group
 elb2=boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = elb2.delete_target_group(
-    TargetGroupArn='arn:aws:elasticloadbalancing:us-east-1:495599767034:targetgroup/clixxautoscalingtg2/3b120c7a613dd6b9'
+    TargetGroupArn='arn:aws:elasticloadbalancing:us-east-1:495599767034:targetgroup/clixxautoscalingtg2/7a96b779197ef848'
 )
 
 
 
-"""
+
 #Deleting File system
 efs=boto3.client('efs',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = efs.delete_file_system(
-    FileSystemId='string'
+    FileSystemId='fs-06209f61a8979e1d9'
 )
 
 
@@ -56,10 +56,10 @@ response = efs.delete_file_system(
 #Deleting Autoscaling group
 autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response =autoscaling.delete_auto_scaling_group(
-    AutoScalingGroupName='string',
+    AutoScalingGroupName='my-auto-scaling-group',
     ForceDelete=True
 )
 
-"""
+
 
 

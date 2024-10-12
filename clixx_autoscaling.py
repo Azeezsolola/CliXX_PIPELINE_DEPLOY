@@ -93,6 +93,10 @@ response = elb.create_target_group(
     HealthyThresholdCount=2,
     UnhealthyThresholdCount=5,
     TargetType='instance',
+    Matcher={
+        'HttpCode': [200,301]
+        
+    },
     
     IpAddressType='ipv4'
 )

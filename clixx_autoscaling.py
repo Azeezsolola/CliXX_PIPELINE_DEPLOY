@@ -94,7 +94,7 @@ response = elb.create_target_group(
     UnhealthyThresholdCount=5,
     TargetType='instance',
     Matcher={
-        'HttpCode': [200,301]
+        'HttpCode': "200,301"
         
     },
     

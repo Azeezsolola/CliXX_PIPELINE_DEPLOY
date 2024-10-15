@@ -137,14 +137,14 @@ RT=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_ac
 response = RT.create_route_table(
     TagSpecifications=[
         {
-            'ResourceType': 'route-table,
+            'ResourceType': 'route-table',
             'Tags': [
                 {
                     'Key': 'Name',
                     'Value': 'publicRT'
-                },
+                }
             ]
-        },
+        }
     ],
     DryRun=False,
     VpcId=vpcid

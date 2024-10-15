@@ -286,4 +286,61 @@ response=pubrule3.authorize_security_group_ingress(
 
 
 
+#Creating security group for private subnet 
+privsg=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = privsg.create_security_group(
+    Description='private_subnet_SG',
+    GroupName='privatesubSG',
+    VpcId=vpcid,
+    TagSpecifications=[
+        {
+            'ResourceType': 'security-group',
+            'Tags': [
+                {
+                    'Key': 'Name',
+                    'Value': 'privatesubnetSG'
+                }
+            ]
+        }
+    ],
+    DryRun=False
+)
+print(response)
+privsgid=response['GroupId']
+print(privsgid)
+
+
+#Adding rules to the private security group
+privrule1=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response=privrule1.authorize_security_group_ingress(
+    GroupId=privsgid,
+    IpPermissions=[
+        {
+            'IpProtocol': 'tcp',
+            'FromPort': 3306,
+            'ToPort': 3306,
+            'IpRanges': [{'CidrIp': '10.0.0.0/24'}]  
+        }
+    ]
+)
+
+privrule2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response=privrule2.authorize_security_group_ingress(
+    GroupId=privsgid,
+    IpPermissions=[
+        {
+            'IpProtocol': 'tcp',
+            'FromPort': 2049,
+            'ToPort': 2049,
+            'IpRanges': [{'CidrIp': '10.0.0.0/24'}]  
+        }
+    ]
+)
+
+
+
+
+
+
+
 

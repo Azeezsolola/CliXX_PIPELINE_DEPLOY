@@ -40,14 +40,14 @@ response = VPC.create_vpc(
 )
 
 print(response)
-output=response['Vpc']['VpcId']
-print(output)
+vpcid=response['Vpc']['VpcId']
+print(vpcid)
 
 
 #Creating public subnet 
 
 subnet=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-subnet = subnet.create_subnet(
+response = subnet.create_subnet(
     TagSpecifications=[
         {
             'ResourceType': 'subnet',
@@ -64,11 +64,12 @@ subnet = subnet.create_subnet(
     VpcId=response['Vpc']['VpcId'],
     DryRun=False
 )
+print(response)
 
 
 #Creating private subnet 
 subnetpub=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-subnet = subnetpub.create_subnet(
+response = subnetpub.create_subnet(
     TagSpecifications=[
         {
             'ResourceType': 'subnet',
@@ -81,10 +82,11 @@ subnet = subnetpub.create_subnet(
         }
     ],
     AvailabilityZone='us-east-1a',
-    CidrBlock='10.0.0.0/24',
+    CidrBlock='10.0.1.0/24',
     VpcId=response['Vpc']['VpcId'],
     DryRun=False
 )
+print(response)
 
 
 

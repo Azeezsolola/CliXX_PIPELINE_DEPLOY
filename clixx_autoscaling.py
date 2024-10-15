@@ -65,6 +65,8 @@ response = subnet.create_subnet(
     DryRun=False
 )
 print(response)
+publicsubnetid=response['Subnet']['SubnetId']
+print(publicsubnetid)
 
 
 #Creating private subnet 
@@ -86,6 +88,28 @@ response = subnetpub.create_subnet(
     VpcId=vpcid,
     DryRun=False
 )
+print(response)
+privatesubnetid=response['Subnet']['SubnetId']
+print(privatesubnetid)
+
+
+#Create internet Gateway
+internetgateway=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response =internetgateway.create_internet_gateway(
+    TagSpecifications=[
+        {
+            'ResourceType': 'internet-gateway',
+            'Tags': [
+                {
+                    'Key': 'Name',
+                    'Value': 'publicinternetgateway'
+                }
+            ]
+        }
+    ],
+    DryRun=False
+)
+
 print(response)
 
 

@@ -61,7 +61,7 @@ response = subnet.create_subnet(
     ],
     AvailabilityZone='us-east-1a',
     CidrBlock='10.0.0.0/24',
-    VpcId=response['Vpc']['VpcId'],
+    VpcId=vpcid,
     DryRun=False
 )
 print(response)
@@ -83,7 +83,7 @@ response = subnetpub.create_subnet(
     ],
     AvailabilityZone='us-east-1a',
     CidrBlock='10.0.1.0/24',
-    VpcId=response['Vpc']['VpcId'],
+    VpcId=vpcid,
     DryRun=False
 )
 print(response)

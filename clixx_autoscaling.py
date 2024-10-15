@@ -167,28 +167,28 @@ print(response)
 
 
 
-#Creating NAT gateway
-NAT=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = NAT.create_nat_gateway(
-    AllocationId='eipalloc-04292754825061e16',
-    DryRun=False,
-    SubnetId=publicsubnetid,
-    TagSpecifications=[
-        {
-            'ResourceType': 'natgateway',
-            'Tags': [
-                {
-                    'Key': 'Name',
-                    'Value': 'NATGW'
-                }
-            ]
-        }
-    ]
+# #Creating NAT gateway
+# NAT=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+# response = NAT.create_nat_gateway(
+#     AllocationId='eipalloc-04292754825061e16',
+#     DryRun=False,
+#     SubnetId=publicsubnetid,
+#     TagSpecifications=[
+#         {
+#             'ResourceType': 'natgateway',
+#             'Tags': [
+#                 {
+#                     'Key': 'Name',
+#                     'Value': 'NATGW'
+#                 }
+#             ]
+#         }
+#     ]
     
-)
-print(response)
-natid=response['NatGateway']['NatGatewayId']
-print(natid)
+# )
+# print(response)
+# natid=response['NatGateway']['NatGatewayId']
+# print(natid)
 
 
 

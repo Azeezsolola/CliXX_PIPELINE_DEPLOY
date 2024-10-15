@@ -239,6 +239,51 @@ print(pubsgid)
 
 
 
+#Adding Rules to security Group
+pubrule1=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+
+response=pubrule1.authorize_security_group_ingress(
+    GroupId=pubsgid,
+    IpPermissions=[
+        {
+            'IpProtocol': 'tcp',
+            'FromPort': 80,
+            'ToPort': 80,
+            'IpRanges': [{'CidrIp': '0.0.0.0/0'}]  
+        }
+    ]
+)
+
+pubrule2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response=pubrule2.authorize_security_group_ingress(
+    GroupId=pubsgid,
+    IpPermissions=[
+        {
+            'IpProtocol': 'tcp',
+            'FromPort': 22,
+            'ToPort': 22,
+            'IpRanges': [{'CidrIp': '0.0.0.0/0'}]  
+        }
+    ]
+)
+
+
+
+pubrule3=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+
+response=pubrule3.authorize_security_group_ingress(
+    GroupId=pubsgid,
+    IpPermissions=[
+        {
+            'IpProtocol': 'tcp',
+            'FromPort': 443,
+            'ToPort': 443,
+            'IpRanges': [{'CidrIp': '0.0.0.0/0'}]  
+        }
+    ]
+)
+
+
 
 
 

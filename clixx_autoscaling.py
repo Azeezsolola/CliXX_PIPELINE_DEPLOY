@@ -418,3 +418,21 @@ response = igwass3.associate_route_table(
 print(response)
 
 
+
+#Creating RDS group for RDS DB
+rdsdbsub = boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = rdsdbsub.create_db_subnet_group(
+    DBSubnetGroupName=rdsdbsubgroup,
+    DBSubnetGroupDescription='Two private subnets',
+    SubnetIds=[privatesubnetid2,privatesubnetid],
+    TagList=[
+            {
+                'Key': 'Name',
+                'Value': 'rdsdbsubnetgroup'
+            }
+            
+        ]
+)
+print(response)
+
+

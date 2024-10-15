@@ -436,3 +436,19 @@ response = rdsdbsub.create_db_subnet_group(
 print(response)
 
 
+
+
+# Create RDS DB
+rds_client = boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+# Restore DB instance from snapshot
+response = rds_client.restore_db_instance_from_db_snapshot(
+    DBInstanceIdentifier='wordpressdbclixx-ecs2',
+    DBSnapshotIdentifier='arn:aws:rds:us-east-1:577701061234:snapshot:wordpressdbclixx-ecs-snapshot',
+    DBInstanceClass='db.m6gd.large',
+    DBSubnetGroupName='rdsdbsubgroup',
+    MultiAZ=True,
+    PubliclyAccessible=True,
+    VpcSecurityGroupIds=[vpcid]
+    )
+print(response)
+

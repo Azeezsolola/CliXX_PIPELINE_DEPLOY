@@ -187,7 +187,7 @@ response = NAT.create_nat_gateway(
     
 )
 print(response)
-natid=response['NatGatewayId']
+natid=response['NatGateway']['NatGatewayId']
 print(natid)
 
 

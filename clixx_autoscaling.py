@@ -667,3 +667,6 @@ for subnet_id in subnet_ids:
         SubnetId=subnet_id,
         SecurityGroups=[privsgid]
     )
+  
+  
+  

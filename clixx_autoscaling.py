@@ -24,7 +24,7 @@ VPC=boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_a
 response = client.create_vpc(
     CidrBlock='10.0.0.0/16',
     TagSpecifications=[
-        {
+        
             'Tags': [
                 {
                     'Key': 'Name',

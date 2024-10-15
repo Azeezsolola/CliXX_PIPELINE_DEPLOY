@@ -44,6 +44,24 @@ vpcid=response['Vpc']['VpcId']
 print(vpcid)
 
 
+#Enabling VPC DNS Resolution
+vpcresolution=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = vpcresolution.modify_vpc_attribute(
+    EnableDnsHostnames={
+        'Value': True
+    },
+    EnableDnsSupport={
+        'Value': True
+    },
+    VpcId=vpcid,
+    EnableNetworkAddressUsageMetrics={
+        'Value': False
+    }
+)
+print(vpcresolution)
+
+
+
 #Creating public subnet 
 
 subnet=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)

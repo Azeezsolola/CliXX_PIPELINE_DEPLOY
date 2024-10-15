@@ -18,7 +18,6 @@ print(credentials)
 
 
 
-
  # Create RDS client 
 rds_client = boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 # Restore DB instance from snapshot

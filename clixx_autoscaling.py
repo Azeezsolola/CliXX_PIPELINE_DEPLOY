@@ -380,6 +380,29 @@ response=privrule2.authorize_security_group_ingress(
 
 
 
+#Creating private subnet 2 for RDS
+subnetpriv=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = subnetpriv.create_subnet(
+    TagSpecifications=[
+        {
+            'ResourceType': 'subnet',
+            'Tags': [
+                {
+                    'Key': 'Name',
+                    'Value': 'privatesub2'
+                }
+            ]
+        }
+    ],
+    AvailabilityZone='us-east-1b',
+    CidrBlock='10.0.2.0/24',
+    VpcId=vpcid,
+    DryRun=False
+)
+print(response)
+privatesubnetid2=response['Subnet']['SubnetId']
+print(privatesubnetid2)
+
 
 
 

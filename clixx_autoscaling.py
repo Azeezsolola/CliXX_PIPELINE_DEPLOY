@@ -166,6 +166,7 @@ print(response)
 
 
 
+
 #Creating NAT gateway
 NAT=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = NAT.create_nat_gateway(
@@ -186,8 +187,13 @@ response = NAT.create_nat_gateway(
     
 )
 print(response)
+natid=response['NatGatewayId']
+print(natid)
 
-"""
+
+
+
+
 #Creating private route table
 RT2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = RT2.create_route_table(
@@ -208,6 +214,16 @@ response = RT2.create_route_table(
 print(response)
 privateroutetableid=response['RouteTable']['RouteTableId']
 print(privateroutetableid)
+
+
+#Creating entry in the private route table
+privateRTENTRY=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = privateRTENTRY.create_route(
+    RouteTableId=privateroutetableid,       
+    DestinationCidrBlock='0.0.0.0/0',  
+    NatGatewayId=natid                  
+)
+print(response)
 
 
 #Associating route table to public subnet  
@@ -236,7 +252,7 @@ print(response)
 
 
 
-
+"""
 #Creating security group for instance in the public subnet 
 pubsg=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = pubsg.create_security_group(

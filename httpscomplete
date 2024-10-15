@@ -18,67 +18,6 @@ print(credentials)
 
 
 
-#Creating VPC
-VPC=boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = client.create_vpc(
-    CidrBlock='10.0.0.0/16',
-    TagSpecifications=[
-        {
-            'Tags': [
-                {
-                    'Key': 'Name',
-                    'Value': 'STACKVPC'
-                },
-            ]
-        
-    ],
-    DryRun=False,
-    InstanceTenancy='default',
-    AmazonProvidedIpv6CidrBlock=False
-)
-
-print(response)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"""
  # Create RDS client 
 rds_client = boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 # Restore DB instance from snapshot
@@ -511,5 +450,3 @@ response=cloudwatch.put_metric_alarm(
     ]
 )
 print(response)
-
-"""

@@ -20,7 +20,7 @@ print(credentials)
 
 
 #Creating VPC
-VPC=boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+VPC=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = VPC.create_vpc(
     CidrBlock='10.0.0.0/16',
     TagSpecifications=[

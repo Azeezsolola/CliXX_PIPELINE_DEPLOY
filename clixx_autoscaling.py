@@ -519,3 +519,82 @@ response = igwass5.associate_route_table(
 print(response)
 
 
+
+#Creating Load balancer 
+elb=boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = elb.create_load_balancer(
+    Name='autoscalinglb2-azeez',
+    Subnets=[publicsubnetid2,publicsubnetid],
+    SecurityGroups=[pubsgid],
+    Scheme='internet-facing',
+    
+    Tags=[
+        {
+            'Key': 'OwnerEmail',
+            'Value': 'azeezsolola14+development@outlook.com'
+        },
+    ],
+    Type='application',
+    IpAddressType='ipv4'
+    )
+
+print(response)
+loadbalancerarn=response["LoadBalancers"][0]["LoadBalancerArn"]
+print(loadbalancerarn)
+LBDNS=response["LoadBalancers"][0]["DNSName"]
+print(LBDNS)
+
+ELBZONEID=response["LoadBalancers"][0]["CanonicalHostedZoneId"]
+print(ELBZONEID)
+
+time.sleep(300)
+
+
+#Creating Target Group
+response = elb.create_target_group(
+    Name='clixxautoscalingtg2',
+    Protocol='HTTP',
+    ProtocolVersion='HTTP1',
+    Port=80,
+    VpcId=vpcid,
+    HealthCheckProtocol='HTTP',
+    HealthCheckEnabled=True,
+    HealthCheckIntervalSeconds=300,
+    HealthCheckTimeoutSeconds=120,
+    HealthCheckPort='80',
+    HealthCheckPath='/',
+    HealthyThresholdCount=2,
+    UnhealthyThresholdCount=5,
+    TargetType='instance',
+    Matcher={
+        'HttpCode': "200,301"
+        
+    },
+    
+    IpAddressType='ipv4'
+)
+
+targetgrouparn=response['TargetGroups'][0]['TargetGroupArn']
+print(targetgrouparn)
+
+
+#Creating listner on load balancer and attaching taregt group
+elb1 = boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = elb1.create_listener(
+    LoadBalancerArn=loadbalancerarn, 
+    Port=443,
+    Protocol='HTTPS',
+    Certificates=[  
+        {
+            'CertificateArn': 'arn:aws:acm:us-east-1:495599767034:certificate/c4b0e3bc-b06f-42f5-b26b-e631e9720f8a'  
+        }
+    ],
+    DefaultActions=[
+        {
+            'Type': 'forward',
+            'TargetGroupArn': targetgrouparn  
+        }
+    ]
+)
+listener_arn = response['Listeners'][0]['ListenerArn']
+print(listener_arn)

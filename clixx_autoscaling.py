@@ -462,7 +462,7 @@ print(response)
 
 
 
-
+"""
 # Create RDS DB
 rds_client = boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 # Restore DB instance from snapshot
@@ -477,5 +477,45 @@ response = rds_client.restore_db_instance_from_db_snapshot(
     )
 print(response)
 
+time.sleep(600)
+"""
+
+
+#Creating public subnet 2 because of the load balancer 
+
+subnet2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = subnet2.create_subnet(
+    TagSpecifications=[
+        {
+            'ResourceType': 'subnet',
+            'Tags': [
+                {
+                    'Key': 'Name',
+                    'Value': 'publicsub'
+                }
+            ]
+        }
+    ],
+    AvailabilityZone='us-east-1a',
+    CidrBlock='10.0.3.0/24',
+    VpcId=vpcid,
+    DryRun=False
+)
+print(response)
+publicsubnetid2=response['Subnet']['SubnetId']
+print(publicsubnetid2)
+
+
+
+#Associating route table to newly created public subnet  
+igwass5=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = igwass5.associate_route_table(
+    #GatewayId=intgwid,
+    DryRun=False,
+    SubnetId=publicsubnetid2,
+    RouteTableId=routetableid
+)
+
+print(response)
 
 

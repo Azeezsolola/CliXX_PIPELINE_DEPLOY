@@ -602,3 +602,68 @@ print(listener_arn)
 
 
 
+#tie domain name with lb DNS
+route53=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = route53.change_resource_record_sets(
+    HostedZoneId='Z0099082ZFVZUBLTJX9D',
+    ChangeBatch={
+        'Comment': 'update_DNS',
+        'Changes': [
+            {
+                'Action': 'UPSERT',
+                'ResourceRecordSet': {
+                    'Name': 'dev.clixx-azeez.com',
+                    'Type': 'A',
+                    'AliasTarget': {
+                            'HostedZoneId': ELBZONEID,  
+                            'DNSName': LBDNS,
+                            'EvaluateTargetHealth': False
+                        }
+ 
+                }
+            }
+        ]
+    }
+)
+
+print(response)
+
+
+
+
+
+
+efs=boto3.client('efs',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+# Create a file system
+response = efs.create_file_system(
+    CreationToken='devfs', 
+    PerformanceMode='generalPurpose',  
+    Encrypted=True,  
+    ThroughputMode='elastic',  
+    Backup=False,  
+    Tags=[
+        {
+            'Key': 'Name',  
+            'Value': 'azeezefs'
+        },
+    ]
+)
+
+print(response)
+filesystemid=response["FileSystemId"]
+print(filesystemid)
+
+time.sleep(300)
+
+
+#Attaching Security group to efs 
+filesystemid=response["FileSystemId"]
+security_group_id=privsgid
+subnet_ids = [privatesubnetid2,privatesubnetid]
+mounttarget=boto3.client('efs',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+for subnet_id in subnet_ids:
+  response=mounttarget.create_mount_target(
+        FileSystemId=filesystemid,
+        SubnetId=subnet_id,
+        SecurityGroups=[privsgid]
+    )

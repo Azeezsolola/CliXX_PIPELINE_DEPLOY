@@ -28,7 +28,7 @@ response = client.create_vpc(
                 {
                     'Key': 'Name',
                     'Value': 'STACKVPC'
-                },
+                }
             ]
         
     ],

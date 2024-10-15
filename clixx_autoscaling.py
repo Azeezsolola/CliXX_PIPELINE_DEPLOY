@@ -234,6 +234,8 @@ response = pubsg.create_security_group(
     DryRun=False
 )
 print(response)
+pubsgid=response['GroupId']
+print(pubsgid)
 
 
 

@@ -167,28 +167,28 @@ print(response)
 
 
 
-# #Creating NAT gateway
-# NAT=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-# response = NAT.create_nat_gateway(
-#     AllocationId='eipalloc-04292754825061e16',
-#     DryRun=False,
-#     SubnetId=publicsubnetid,
-#     TagSpecifications=[
-#         {
-#             'ResourceType': 'natgateway',
-#             'Tags': [
-#                 {
-#                     'Key': 'Name',
-#                     'Value': 'NATGW'
-#                 }
-#             ]
-#         }
-#     ]
+#Creating NAT gateway
+NAT=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = NAT.create_nat_gateway(
+    AllocationId='eipalloc-04292754825061e16',
+    DryRun=False,
+    SubnetId=publicsubnetid,
+    TagSpecifications=[
+        {
+            'ResourceType': 'natgateway',
+            'Tags': [
+                {
+                    'Key': 'Name',
+                    'Value': 'NATGW'
+                }
+            ]
+        }
+    ]
     
-# )
-# print(response)
-# natid=response['NatGateway']['NatGatewayId']
-# print(natid)
+)
+print(response)
+natid=response['NatGateway']['NatGatewayId']
+print(natid)
 
 
 
@@ -215,7 +215,7 @@ print(response)
 privateroutetableid=response['RouteTable']['RouteTableId']
 print(privateroutetableid)
 
-'''
+
 #Creating entry in the private route table
 privateRTENTRY=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = privateRTENTRY.create_route(
@@ -224,7 +224,7 @@ response = privateRTENTRY.create_route(
     NatGatewayId=natid                  
 )
 print(response)
-'''
+
 
 #Associating route table to public subnet  
 igwass=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
@@ -252,7 +252,7 @@ print(response)
 
 
 
-"""
+
 #Creating security group for instance in the public subnet 
 pubsg=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = pubsg.create_security_group(
@@ -380,6 +380,6 @@ response=privrule2.authorize_security_group_ingress(
 
 
 
-"""
+
 
 

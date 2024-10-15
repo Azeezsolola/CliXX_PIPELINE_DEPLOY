@@ -497,7 +497,7 @@ response = subnet2.create_subnet(
             ]
         }
     ],
-    AvailabilityZone='us-east-1a',
+    AvailabilityZone='us-east-1b',
     CidrBlock='10.0.3.0/24',
     VpcId=vpcid,
     DryRun=False

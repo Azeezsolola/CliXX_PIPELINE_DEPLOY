@@ -191,7 +191,7 @@ natid=response['NatGateway']['NatGatewayId']
 print(natid)
 
 
-
+time.sleep(120)
 
 
 #Creating private route table

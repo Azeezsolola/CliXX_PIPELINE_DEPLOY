@@ -200,6 +200,39 @@ print(response)
 
 
 
+#Associating route tabel with private subnet 
+igwass2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = igwass2.associate_route_table(
+    #GatewayId=intgwid,
+    DryRun=False,
+    SubnetId=privatesubnetid,
+    RouteTableId=privateroutetableid
+)
+
+print(response)
+
+
+
+
+#Creating security group for instance in the public subnet 
+response = client.create_security_group(
+    Description='public_subnet_SG',
+    GroupName='publicsubSG',
+    VpcId=vpcid,
+    TagSpecifications=[
+        {
+            'ResourceType': 'security-group',
+            'Tags': [
+                {
+                    'Key': 'Name',
+                    'Value': 'pubsubnetSG'
+                }
+            ]
+        }
+    ],
+    DryRun=False
+)
+print(response)
 
 
 

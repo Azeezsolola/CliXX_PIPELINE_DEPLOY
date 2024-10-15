@@ -425,7 +425,7 @@ response = rdsdbsub.create_db_subnet_group(
     DBSubnetGroupName='rdsdbsubgroup',
     DBSubnetGroupDescription='Two private subnets',
     SubnetIds=[privatesubnetid2,privatesubnetid],
-    TagList=[
+    Tag=[
             {
                 'Key': 'Name',
                 'Value': 'rdsdbsubnetgroup'

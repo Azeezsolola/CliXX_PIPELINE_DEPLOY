@@ -151,9 +151,31 @@ response = RT.create_route_table(
 )
 
 print(response)
+routetableid=response['RouteTable']['RouteTableId']
+print(routetableid)
 
 
 
+#Creating private route table
+RT2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = RT2.create_route_table(
+    TagSpecifications=[
+        {
+            'ResourceType': 'route-table',
+            'Tags': [
+                {
+                    'Key': 'Name',
+                    'Value': 'privateRT'
+                }
+            ]
+        }
+    ],
+    DryRun=False,
+    VpcId=vpcid
+)
+print(response)
+privateroutetableid=response['RouteTable']['RouteTableId']
+print(privateroutetableid)
 
 
 

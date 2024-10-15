@@ -215,7 +215,7 @@ print(response)
 privateroutetableid=response['RouteTable']['RouteTableId']
 print(privateroutetableid)
 
-
+'''
 #Creating entry in the private route table
 privateRTENTRY=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = privateRTENTRY.create_route(
@@ -224,7 +224,7 @@ response = privateRTENTRY.create_route(
     NatGatewayId=natid                  
 )
 print(response)
-
+'''
 
 #Associating route table to public subnet  
 igwass=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)

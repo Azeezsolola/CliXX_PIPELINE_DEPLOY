@@ -111,12 +111,23 @@ response =internetgateway.create_internet_gateway(
 )
 
 print(response)
+intgwid=response['InternetGateway']['InternetGatewayId']
+print(intgwid)
 
 
 
 
 
 
+
+#internet gateway attachment to the vpc
+internetattach=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = internetattach.attach_internet_gateway(
+    DryRun=False,
+    InternetGatewayId=intgwid,
+    VpcId=vpcid
+)
+print(response)
 
 
 

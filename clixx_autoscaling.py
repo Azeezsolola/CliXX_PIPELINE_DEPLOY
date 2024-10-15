@@ -215,7 +215,8 @@ print(response)
 
 
 #Creating security group for instance in the public subnet 
-response = client.create_security_group(
+pubsg=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = pubsg.create_security_group(
     Description='public_subnet_SG',
     GroupName='publicsubSG',
     VpcId=vpcid,

@@ -50,15 +50,22 @@ response = vpcresolution.modify_vpc_attribute(
     EnableDnsHostnames={
         'Value': True
     },
-    EnableDnsSupport={
-        'Value': True
-    },
     VpcId=vpcid,
-    EnableNetworkAddressUsageMetrics={
-        'Value': False
-    }
+    
 )
 print(vpcresolution)
+
+#Enabling DNS support in the VPC
+vpcresolution2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = vpcresolution2.modify_vpc_attribute(
+    EnableDnsSupport={
+        'Value': True
+     },
+    VpcId=vpcid
+)
+    
+print(vpcresolution2)
+
 
 
 
@@ -466,7 +473,7 @@ response = rds_client.restore_db_instance_from_db_snapshot(
     DBSubnetGroupName='rdsdbsubgroup',
     MultiAZ=True,
     PubliclyAccessible=True,
-    VpcSecurityGroupIds=[vpcid]
+    VpcSecurityGroupIds=[privsgid]
     )
 print(response)
 

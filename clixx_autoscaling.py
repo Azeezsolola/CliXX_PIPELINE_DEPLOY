@@ -406,5 +406,15 @@ print(privatesubnetid2)
 
 
 
+#Associating route tabel with private subnet 
+igwass3=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = igwass3.associate_route_table(
+    #GatewayId=intgwid,
+    DryRun=False,
+    SubnetId=privatesubnetid2,
+    RouteTableId=privateroutetableid
+)
+
+print(response)
 
 

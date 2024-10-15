@@ -28,8 +28,8 @@ response = VPC.create_vpc(
             'ResourceType': 'vpc',
             'Tags': [
                 {
-                    'Key': 'string',
-                    'Value': 'string'
+                    'Key': 'Name',
+                    'Value': 'STACKVPC'
                 }
             ]
         }
@@ -40,7 +40,8 @@ response = VPC.create_vpc(
 )
 
 print(response)
-
+output=response['Vpc']['VpcId']
+print(output)
 
 
 

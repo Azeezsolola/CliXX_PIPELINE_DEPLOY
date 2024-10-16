@@ -53,7 +53,7 @@ for x in ["fsmt-03e028c8bbf9d38c0","fsmt-0f6478a7a5cc0db5d"]:
 
 	
 time.sleep(80)
-"""
+
 
 #Deleting Autoscaling group
 autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
@@ -61,7 +61,7 @@ response =autoscaling.delete_auto_scaling_group(
     AutoScalingGroupName='my-auto-scaling-group',
     ForceDelete=True
 )
-
+"""
 
 #Deleting File system
 efs=boto3.client('efs',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)

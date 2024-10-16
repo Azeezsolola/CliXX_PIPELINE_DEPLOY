@@ -111,6 +111,24 @@ for x in ["rtb-09d7d1227a081be5d","rtb-04d95e32b569be477"]:
 
 """
 
+#Delete SG
+SG=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = SG.delete_security_group(
+    GroupId='sg-08585bdbc3edde302',
+    GroupName='privatesubSG',
+    DryRun=False
+)
+
+
+SG2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = SG2.delete_security_group(
+    GroupId='sg-0286bcf9842170d54',
+    GroupName='publicsubSG',
+    DryRun=False
+)
+
+
+
 #Delete VPC
 vpc=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = vpc.delete_vpc(

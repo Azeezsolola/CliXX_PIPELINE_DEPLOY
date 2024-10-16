@@ -404,6 +404,33 @@ response=privrule2.authorize_security_group_ingress(
 )
 
 
+privrule3=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response=privrule3.authorize_security_group_ingress(
+    GroupId=privsgid,
+    IpPermissions=[
+        {
+            'IpProtocol': 'tcp',
+            'FromPort': 2049,
+            'ToPort': 2049,
+            'IpRanges': [{'CidrIp': '10.0.3.0/24'}]  
+        }
+    ]
+)
+
+
+#Adding rules to the private security group
+privrule1=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response=privrule1.authorize_security_group_ingress(
+    GroupId=privsgid,
+    IpPermissions=[
+        {
+            'IpProtocol': 'tcp',
+            'FromPort': 3306,
+            'ToPort': 3306,
+            'IpRanges': [{'CidrIp': '10.0.3.0/24'}]  
+        }
+    ]
+)
 
 
 #Creating private subnet 2 for RDS

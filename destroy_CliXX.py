@@ -109,7 +109,7 @@ for x in ["rtb-09d7d1227a081be5d","rtb-04d95e32b569be477"]:
     
 
 
-"""
+
 
 #Delete SG
 SG=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
@@ -126,7 +126,7 @@ response = SG2.delete_security_group(
     GroupName='publicsubSG',
     DryRun=False
 )
-
+"""
 
 #Deleting Internet Gateway
 igw=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)

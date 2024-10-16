@@ -128,25 +128,6 @@ response = SG2.delete_security_group(
 )
 """
 
-#Deleting Internet Gateway
-igw=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = igw.delete_internet_gateway(
-    DryRun=False,
-    InternetGatewayId='igw-0730a7a29d5b96635'
-)
-
-#Delete VPC
-vpc=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = vpc.delete_vpc(
-    VpcId='vpc-0d8db213f182d71d0',
-    DryRun=False
-)
-
-
-
-
-
-
 #Delete TEmplatae 
 LT=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = LT.delete_launch_template(
@@ -154,3 +135,23 @@ response = LT.delete_launch_template(
     LaunchTemplateId='lt-09b2a224d820f1645',
     LaunchTemplateName='oloyede'
 )
+
+# #Deleting Internet Gateway
+# igw=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+# response = igw.delete_internet_gateway(
+#     DryRun=False,
+#     InternetGatewayId='igw-0730a7a29d5b96635'
+# )
+
+# #Delete VPC
+# vpc=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+# response = vpc.delete_vpc(
+#     VpcId='vpc-0d8db213f182d71d0',
+#     DryRun=False
+# )
+
+
+
+
+
+

@@ -31,7 +31,7 @@ time.sleep(200)
 #Deleting Load Balancer
 elb=boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = elb.delete_load_balancer(
-    LoadBalancerArn='arn:aws:elasticloadbalancing:us-east-1:495599767034:loadbalancer/app/autoscalinglb2-azeez/76d2cb2eb46c9a69'
+    LoadBalancerArn='arn:aws:elasticloadbalancing:us-east-1:495599767034:loadbalancer/app/autoscalinglb2-azeez/a910059e0c7ab8d3'
 )
 
 time.sleep(60)
@@ -39,18 +39,19 @@ time.sleep(60)
 #Deleting target group
 elb2=boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = elb2.delete_target_group(
-    TargetGroupArn='arn:aws:elasticloadbalancing:us-east-1:495599767034:targetgroup/clixxautoscalingtg2/e3f80e2826314ccf'
+    TargetGroupArn='arn:aws:elasticloadbalancing:us-east-1:495599767034:targetgroup/clixxautoscalingtg2/5c333b72491a31fa'
 )
 
-
+time.sleep(60)
 
 mounttarget=boto3.client('efs',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-for x in ["fsmt-08ffb5694c5808193","fsmt-0c477713965320c21","fsmt-025adc0191ce6773b","fsmt-0ab7d8ba37dead741","fsmt-0f3db873f897bf45b","fsmt-0923aab6b2be93810"]:
+for x in ["fsmt-03e028c8bbf9d38c0","fsmt-0f6478a7a5cc0db5d"]:
     response=mounttarget.delete_mount_target(
     MountTargetId=x)
 
 
 
+	
 
 
 
@@ -65,8 +66,41 @@ response =autoscaling.delete_auto_scaling_group(
 #Deleting File system
 efs=boto3.client('efs',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = efs.delete_file_system(
-    FileSystemId='fs-06209f61a8979e1d9'
+    FileSystemId='fs-008157e9547d110c3'
+)
+
+
+#Delete subnet group
+subgroup=boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = subgroup.delete_db_subnet_group(
+    DBSubnetGroupName='rdsdbsubgroup'
+)
+
+
+#Delete NAT 
+natgate=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = natgate.delete_nat_gateway(
+    DryRun=False,
+    NatGatewayId='nat-0d9e3fd0f7936ced'
+)
+
+time.sleep(60)
+
+
+#Delete VPC
+vpc=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = vpc.delete_vpc(
+    VpcId='vpc-0d8db213f182d71d0',
+    DryRun=False
 )
 
 
 
+
+#Delete TEmplatae 
+LT=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = LT.delete_launch_template(
+    DryRun=False,
+    LaunchTemplateId='lt-09b2a224d820f1645',
+    LaunchTemplateName='oloyede'
+)

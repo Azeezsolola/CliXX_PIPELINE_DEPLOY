@@ -18,7 +18,7 @@ print(credentials)
 
 
 
-
+"""
 #Deleting RDS
 rds_client=boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = rds_client.delete_db_instance(
@@ -52,8 +52,8 @@ for x in ["fsmt-03e028c8bbf9d38c0","fsmt-0f6478a7a5cc0db5d"]:
 
 
 	
-
-
+time.sleep(80)
+"""
 
 #Deleting Autoscaling group
 autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)

@@ -91,7 +91,7 @@ time.sleep(60)
 
 #Delete Subnets 
 sub=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-for x in ["rtb-09d7d1227a081be5d","rtb-04d95e32b569be477","sg-08585bdbc3edde302","sg-0286bcf9842170d54"]:
+for x in ["subnet-0871c39faeefa7790","subnet-081a5bac34643d0bc","subnet-00d53c9eeeac7f6df","subnet-0f891d5b0be97dac7"]:
     response = sub.delete_subnet(
     SubnetId=x,
     DryRun=False

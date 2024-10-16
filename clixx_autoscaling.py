@@ -850,7 +850,9 @@ response = autoscaling.create_auto_scaling_group(
     
    
     DefaultInstanceWarmup=300,
-     VPCZoneIdentifier=[publicsubnetid,publicsubnetid2]
+    VPCZoneIdentifier = f"{publicsubnetid},{publicsubnetid2}"
+
+     #VPCZoneIdentifier=[publicsubnetid,publicsubnetid2]
 
  
 )

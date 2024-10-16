@@ -707,7 +707,7 @@ for subnet_id in subnet_ids:
 #Creating Launch Template 
 
 AWS_REGION='us-east-1'
-USER_DATA=f"""#!/bin/bash
+USER_DATA="""#!/bin/bash
 ##Install the needed packages and enable the services(MariaDb, Apache)
 sudo yum update -y
 
@@ -715,16 +715,25 @@ sudo yum update -y
 #IP_ADDRESS=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
 
 #Mounting 
-sudo yum install -y nfs-utils
-FILE_SYSTEM_ID=filesystemid
-AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone )
-REGION=${{AVAILABILITY_ZONE:0:-1}}
-MOUNT_POINT=/var/www/html
-sudo mkdir -p ${{MOUNT_POINT}}
-sudo chown ec2-user:ec2-user ${{MOUNT_POINT}}
-#sudo echo ${FILE_SYSTEM_ID}.efs.${REGION}.amazonaws.com:/ ${MOUNT_POINT} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0 >> /etc/fstab
+# sudo yum install -y nfs-utils
+# FILE_SYSTEM_ID=filesystemid
+# AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone )
+# REGION=${AVAILABILITY_ZONE:0:-1}
+# MOUNT_POINT=/var/www/html
+# sudo mkdir -p ${MOUNT_POINT}
+# sudo chown ec2-user:ec2-user ${MOUNT_POINT}
+# #sudo echo ${FILE_SYSTEM_ID}.efs.${REGION}.amazonaws.com:/ ${MOUNT_POINT} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0 >> /etc/fstab
 
-echo "$FILE_SYSTEM_ID.efs.$REGION.amazonaws.com:/ $MOUNT_POINT nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0" | sudo tee -a /etc/fstab
+# echo "$FILE_SYSTEM_ID.efs.$REGION.amazonaws.com:/ $MOUNT_POINT nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0" | sudo tee -a /etc/fstab
+
+TOKEN=$(curl --request PUT "http://169.254.169.254/latest/api/token" --header "X-aws-ec2-metadata-token-ttl-seconds: 3600")
+REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/region --header "X-aws-ec2-metadata-token: $TOKEN")
+
+MOUNT_POINT="${MOUNT_POINT}"
+sudo mkdir -p ${MOUNT_POINT}
+sudo chown ec2-user:ec2-user ${MOUNT_POINT}
+#echo aws_efs_file_system.web-app-efs.id.efs.var.region.amazonaws.com:/ ${MOUNT_POINT} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0 >> /etc/fstab
+echo ${file_system_id}.efs.${region}.amazonaws.com:/ ${MOUNT_POINT} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0 >> /etc/fstab
 
 sudo mount -a -t nfs4
 sudo chmod -R 755 /var/www/html

@@ -722,8 +722,9 @@ REGION=${AVAILABILITY_ZONE:0:-1}
 MOUNT_POINT=/var/www/html
 sudo mkdir -p ${MOUNT_POINT}
 sudo chown ec2-user:ec2-user ${MOUNT_POINT}
-sudo echo ${FILE_SYSTEM_ID}.efs.${REGION}.amazonaws.com:/ ${MOUNT_POINT} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0 >> /etc/fstab
+#sudo echo ${FILE_SYSTEM_ID}.efs.${REGION}.amazonaws.com:/ ${MOUNT_POINT} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0 >> /etc/fstab
 
+echo "$FILE_SYSTEM_ID.efs.$REGION.amazonaws.com:/ $MOUNT_POINT nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0" | sudo tee -a /etc/fstab
 
 sudo mount -a -t nfs4
 sudo chmod -R 755 /var/www/html

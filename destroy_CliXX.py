@@ -61,7 +61,7 @@ response =autoscaling.delete_auto_scaling_group(
     AutoScalingGroupName='my-auto-scaling-group',
     ForceDelete=True
 )
-"""
+
 
 #Deleting File system
 efs=boto3.client('efs',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
@@ -76,12 +76,12 @@ response = subgroup.delete_db_subnet_group(
     DBSubnetGroupName='rdsdbsubgroup'
 )
 
-
+"""
 #Delete NAT 
 natgate=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = natgate.delete_nat_gateway(
     DryRun=False,
-    NatGatewayId='nat-0d9e3fd0f7936ced'
+    NatGatewayId='nat-0d9e3fd0f7936cedf'
 )
 
 time.sleep(60)

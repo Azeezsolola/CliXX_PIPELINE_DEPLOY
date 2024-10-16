@@ -18,7 +18,7 @@ print(credentials)
 
 
 
-
+"""
 #Deleting RDS
 rds_client=boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = rds_client.delete_db_instance(
@@ -27,6 +27,7 @@ response = rds_client.delete_db_instance(
     )
 
 time.sleep(200)
+
 
 #Deleting Load Balancer
 elb=boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
@@ -68,7 +69,7 @@ efs=boto3.client('efs',aws_access_key_id=credentials['AccessKeyId'],aws_secret_a
 response = efs.delete_file_system(
     FileSystemId='fs-008157e9547d110c3'
 )
-
+"""
 
 #Delete subnet group
 subgroup=boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)

@@ -128,6 +128,12 @@ response = SG2.delete_security_group(
 )
 
 
+#Deleting Internet Gateway
+igw=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = igw.delete_internet_gateway(
+    DryRun=False,
+    InternetGatewayId='igw-0730a7a29d5b96635'
+)
 
 #Delete VPC
 vpc=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
@@ -137,12 +143,7 @@ response = vpc.delete_vpc(
 )
 
 
-#Deleting Internet Gateway
-igw=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = igw.delete_internet_gateway(
-    DryRun=False,
-    InternetGatewayId='igw-0730a7a29d5b96635'
-)
+
 
 
 

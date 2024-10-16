@@ -98,7 +98,6 @@ for x in ["subnet-0871c39faeefa7790","subnet-081a5bac34643d0bc","subnet-00d53c9e
 
 time.sleep(60)
 
-"""
 
 #Deleteing Route tablr
 routetab=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
@@ -110,12 +109,7 @@ for x in ["rtb-09d7d1227a081be5d","rtb-04d95e32b569be477"]:
     
 
 
-#Deleting Internet Gateway
-igw=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = igw.delete_internet_gateway(
-    DryRun=False,
-    InternetGatewayId='igw-0730a7a29d5b96635'
-)
+"""
 
 #Delete VPC
 vpc=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
@@ -124,6 +118,13 @@ response = vpc.delete_vpc(
     DryRun=False
 )
 
+
+#Deleting Internet Gateway
+igw=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = igw.delete_internet_gateway(
+    DryRun=False,
+    InternetGatewayId='igw-0730a7a29d5b96635'
+)
 
 
 

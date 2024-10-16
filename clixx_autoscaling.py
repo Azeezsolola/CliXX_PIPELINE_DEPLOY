@@ -801,6 +801,11 @@ response=ec2.create_launch_template(
         'KeyName': 'Azeez10',     
         'UserData': encoded_user_data,
         'SecurityGroupIds': [pubsgid],
+        'NetworkInterfaces': [{
+            'AssociatePublicIpAddress': True,  
+            'DeviceIndex': 0,
+            'SubnetId': publicsubnetid  
+        }]
     }
     )
 

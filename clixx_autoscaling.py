@@ -800,11 +800,12 @@ response=ec2.create_launch_template(
         'InstanceType': 't2.micro',  
         'KeyName': 'Azeez10',     
         'UserData': encoded_user_data,
-        'SecurityGroupIds': [pubsgid],
+        #'SecurityGroupIds': [pubsgid],
         'NetworkInterfaces': [{
             'AssociatePublicIpAddress': True,  
             'DeviceIndex': 0,
-            'SubnetId': publicsubnetid  
+            'SubnetId': publicsubnetid,
+            'Groups': [pubsgid] 
         }]
     }
     )

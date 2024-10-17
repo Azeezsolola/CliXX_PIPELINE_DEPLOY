@@ -727,7 +727,7 @@ REGION='us-east-1'
 #Creating Launch Template 
 
 AWS_REGION='us-east-1'
-USER_DATA=f"""#!/bin/bash
+USER_DATA="""#!/bin/bash
 ##Install the needed packages and enable the services(MariaDb, Apache)
 sudo yum update -y
 sudo yum install python3
@@ -830,7 +830,7 @@ sudo service httpd restart
 ##Enable httpd 
 sudo systemctl enable httpd 
 sudo /sbin/sysctl -w net.ipv4.tcp_keepalive_time=200 net.ipv4.tcp_keepalive_intvl=200 net.ipv4.tcp_keepalive_probes=5
-"""
+""".format(FILE_SYSTEM_ID,REGION,MOUNT_POINT)
 
 encoded_user_data = base64.b64encode(USER_DATA.encode('utf-8')).decode('utf-8')
 

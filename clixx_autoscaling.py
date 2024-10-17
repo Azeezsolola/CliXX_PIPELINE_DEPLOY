@@ -740,10 +740,16 @@ sudo yum install -y nfs-utils
 sudo echo {file}
 sudo mkdir -p {mount_point}
 sudo chown ec2-user:ec2-user {mount_point}
-#sudo echo {file}.efs.{region}.amazonaws.com:/ {mount_point} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0 >> /etc/fstab
-#sudo mount -a -t nfs4
 echo "{file}.efs.{region}.amazonaws.com:/ {mount_point} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0" | sudo tee -a /etc/fstab
-sudo mount -a 
+sleep 60
+sudo mount -a
+if [ $? == 0 ]
+then
+    echo "mount was done"
+else
+    echo "mount was not done"
+    sudo mount -a
+fi
 sudo chmod -R 755 /var/www/html
 
 sudo yum install git -y

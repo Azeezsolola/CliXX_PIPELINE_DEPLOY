@@ -721,8 +721,8 @@ for subnet_id in subnet_ids:
 
 
 FILE_SYSTEM_ID=response["FileSystemId"]
-MOUNT_POINT="/var/www/html"
-REGION='us-east-1'
+# MOUNT_POINT="/var/www/html"
+# REGION='us-east-1'
 
 #Creating Launch Template 
 
@@ -730,19 +730,19 @@ AWS_REGION='us-east-1'
 USER_DATA="""#!/bin/bash
 ##Install the needed packages and enable the services(MariaDb, Apache)
 sudo yum update -y
-sudo yum install python3
+
 
 #Get Ipaddress
 #IP_ADDRESS=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
 
 #Mounting 
 sudo yum install -y nfs-utils
-sudo echo ${file}
-sudo mkdir -p ${mount_point}
-sudo chown ec2-user:ec2-user ${mount_point}
-#sudo echo ${file}.efs.${region}.amazonaws.com:/ ${mount_point} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0 >> /etc/fstab
+sudo echo {file}
+sudo mkdir -p {mount_point}
+sudo chown ec2-user:ec2-user {mount_point}
+#sudo echo {file}.efs.{region}.amazonaws.com:/ {mount_point} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0 >> /etc/fstab
 #sudo mount -a -t nfs4
-echo "${file}.efs.${region}.amazonaws.com:/ ${mount_point} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0" | sudo tee -a /etc/fstab
+echo "{file}.efs.{region}.amazonaws.com:/ {mount_point} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0" | sudo tee -a /etc/fstab
 sudo mount -a 
 sudo chmod -R 755 /var/www/html
 
@@ -832,7 +832,7 @@ sudo service httpd restart
 ##Enable httpd 
 sudo systemctl enable httpd 
 sudo /sbin/sysctl -w net.ipv4.tcp_keepalive_time=200 net.ipv4.tcp_keepalive_intvl=200 net.ipv4.tcp_keepalive_probes=5
-""".format(file=FILE_SYSTEM_ID,region=REGION,mount_point=MOUNT_POINT,DNS='https://dev.clixx-azeez.com')
+""".format(file=FILE_SYSTEM_ID,region='us-east-1',mount_point="/var/www/html",DNS='https://dev.clixx-azeez.com')
 
 encoded_user_data = base64.b64encode(USER_DATA.encode('utf-8')).decode('utf-8')
 

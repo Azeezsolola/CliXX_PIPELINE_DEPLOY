@@ -741,17 +741,17 @@ sudo echo {file}
 sudo mkdir -p {mount_point}
 sudo chown ec2-user:ec2-user {mount_point}
 echo "{file}.efs.{region}.amazonaws.com:/ {mount_point} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0" | sudo tee -a /etc/fstab
-sleep 60
-sudo mount -a
-if [ $? == 0 ]
-then
-    echo "mount was done"
-else
-    echo "mount was not done"
-    sudo mount -a
-fi
-sudo chmod -R 755 /var/www/html
+sleep 200
 
+# if [ $? == 0 ]
+# then
+#     echo "mount was done"
+# else
+#     echo "mount was not done"
+#     sudo mount -a
+# fi
+sudo chmod -R 755 /var/www/html
+sudo mount -a
 sudo yum install git -y
 sudo amazon-linux-extras install -y lamp-mariadb10.2-php7.2 php7.2
 sudo yum install -y httpd mariadb-server

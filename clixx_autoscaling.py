@@ -820,10 +820,10 @@ sudo chgrp -R apache /var/www
  
 ##Change directory permissions of /var/www & its subdir to add group write 
 sudo chmod 2775 /var/www
-find /var/www -type d -exec sudo chmod 2775 {} \;
+find /var/www -type d -exec sudo chmod 2775 {{}} \;
  
 ##Recursively change file permission of /var/www & subdir to add group write perm
-sudo find /var/www -type f -exec sudo chmod 0664 {} \;
+sudo find /var/www -type f -exec sudo chmod 0664 {{}} \;
  
 ##Restart Apache
 sudo systemctl restart httpd
@@ -832,7 +832,7 @@ sudo service httpd restart
 ##Enable httpd 
 sudo systemctl enable httpd 
 sudo /sbin/sysctl -w net.ipv4.tcp_keepalive_time=200 net.ipv4.tcp_keepalive_intvl=200 net.ipv4.tcp_keepalive_probes=5
-""".format(file=FILE_SYSTEM_ID,region=REGION,mount_point=MOUNT_POINT)
+""".format(file=FILE_SYSTEM_ID,region=REGION,mount_point=MOUNT_POINT,DNS='https://dev.clixx-azeez.com')
 
 encoded_user_data = base64.b64encode(USER_DATA.encode('utf-8')).decode('utf-8')
 

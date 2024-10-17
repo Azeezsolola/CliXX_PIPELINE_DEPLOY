@@ -721,35 +721,43 @@ for subnet_id in subnet_ids:
 
 
 FILE_SYSTEM_ID=response["FileSystemId"]
-# MOUNT_POINT="/var/www/html"
-# REGION='us-east-1'
+MOUNT_POINT="/var/www/html"
+REGION='us-east-1'
+DNS='https://dev.clixx-azeez.com'
+EFS_DNS="{FILE_SYSTEM_ID}.efs.{AWS_REGION}.amazonaws.com"
 
 #Creating Launch Template 
 
 AWS_REGION='us-east-1'
-USER_DATA="""#!/bin/bash
-##Install the needed packages and enable the services(MariaDb, Apache)
+USER_DATA = f"""#!/bin/bash
+exec > /var/log/userdata.log 2>&1  # Log output to a file
+echo "Starting userdata script..."
+
+# Install necessary packages
 sudo yum update -y
+sudo yum install -y nfs-utils git
 
+# Mounting configuration
+MOUNT_POINT="/var/www/html"
+EFS_DNS="{FILE_SYSTEM_ID}.efs.{AWS_REGION}.amazonaws.com"
 
-#Get Ipaddress
-#IP_ADDRESS=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
+# Create mount point
+sudo mkdir -p ${MOUNT_POINT}
+sudo chown ec2-user:ec2-user ${MOUNT_POINT}
 
-#Mounting 
-sudo yum install -y nfs-utils
-sudo echo {file}
-sudo mkdir -p {mount_point}
-sudo chown ec2-user:ec2-user {mount_point}
-echo "{file}.efs.{region}.amazonaws.com:/ {mount_point} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0" | sudo tee -a /etc/fstab
-sleep 200
+# Add EFS to fstab
+echo "${EFS_DNS}:/ ${MOUNT_POINT} nfs4 defaults,_netdev 0 0" | sudo tee -a /etc/fstab
 
-# if [ $? == 0 ]
-# then
-#     echo "mount was done"
-# else
-#     echo "mount was not done"
-#     sudo mount -a
-# fi
+# Wait for the network to stabilize
+sleep 30
+
+# Attempt to mount
+if sudo mount -a; then
+    echo "Mount successful"
+else
+    echo "Mount failed"
+    
+fi
 sudo chmod -R 755 /var/www/html
 sudo mount -a
 sudo yum install git -y
@@ -838,8 +846,7 @@ sudo service httpd restart
 ##Enable httpd 
 sudo systemctl enable httpd 
 sudo /sbin/sysctl -w net.ipv4.tcp_keepalive_time=200 net.ipv4.tcp_keepalive_intvl=200 net.ipv4.tcp_keepalive_probes=5
-""".format(file=FILE_SYSTEM_ID,region='us-east-1',mount_point="/var/www/html",DNS='https://dev.clixx-azeez.com')
-
+"""
 encoded_user_data = base64.b64encode(USER_DATA.encode('utf-8')).decode('utf-8')
 
 ec2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)

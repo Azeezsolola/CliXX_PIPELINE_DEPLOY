@@ -720,9 +720,9 @@ for subnet_id in subnet_ids:
 
 
 
-FILE=response["FileSystemId"]
-MOUNT_POINT="/var/www/html"
-REGION='us-east-1'
+file=response["FileSystemId"]
+mount_point="/var/www/html"
+region='us-east-1'
 lb_dns='https://dev.clixx-azeez.com'
 
 
@@ -743,9 +743,9 @@ sudo yum install -y nfs-utils
 #TOKEN=$(curl --request PUT "http://169.254.169.254/latest/api/token" --header "X-aws-ec2-metadata-token-ttl-seconds: 3600")
 #REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/region --header "X-aws-ec2-metadata-token: $TOKEN")
 #MOUNT_POINT="/var/www/html"
-sudo mkdir -p ${MOUNT_POINT}
-sudo chown ec2-user:ec2-user ${MOUNT_POINT}
-echo "${FILE}.efs.${REGION}.amazonaws.com:/ ${MOUNT_POINT} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0" | sudo tee -a /etc/fstab
+sudo mkdir -p ${mount_point}
+sudo chown ec2-user:ec2-user ${mount_point}
+echo "${file}.efs.${region}.amazonaws.com:/ ${mount_point} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0" | sudo tee -a /etc/fstab
 sudo mount -a 
 
 sudo yum install git -y
@@ -841,7 +841,7 @@ sudo systemctl enable httpd
 sudo /sbin/sysctl -w net.ipv4.tcp_keepalive_time=200 net.ipv4.tcp_keepalive_intvl=200 net.ipv4.tcp_keepalive_probes=5
 
 """
-USER_DATA = USER_DATA.format(file=FILE, region=REGION, mount_point=MOUNT_POINT, lb_dns=lb_dns)
+USER_DATA = USER_DATA.format(file=file, region=region, mount_point=mount_point, lb_dns=lb_dns)
 
 encoded_user_data = base64.b64encode(USER_DATA.encode('utf-8')).decode('utf-8')
 

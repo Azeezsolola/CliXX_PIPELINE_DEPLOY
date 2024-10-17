@@ -577,6 +577,7 @@ print(ELBZONEID)
 time.sleep(300)
 
 
+
 #Creating Target Group
 response = elb.create_target_group(
     Name='clixxautoscalingtg2',

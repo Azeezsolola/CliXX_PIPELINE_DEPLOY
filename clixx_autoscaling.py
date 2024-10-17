@@ -754,8 +754,8 @@ sudo systemctl is-enabled httpd
 ##Add ec2-user to Apache group and grant permissions to /var/www
 sudo usermod -a -G apache ec2-user
 sudo chown -R ec2-user:apache /var/www
-sudo chmod 2775 /var/www && find /var/www -type d -exec sudo chmod 2775 {} \;
-find /var/www -type f -exec sudo chmod 0664 {} \;
+sudo chmod 2775 /var/www && find /var/www -type d -exec sudo chmod 2775 {{}} \;
+find /var/www -type f -exec sudo chmod 0664 {{}} \;
 cd /var/www/html
  
 #Install wordpress and unzip it/copy the sample php conf to wp-config

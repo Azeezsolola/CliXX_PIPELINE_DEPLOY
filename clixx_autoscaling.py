@@ -720,7 +720,7 @@ for subnet_id in subnet_ids:
 
 
 
-FILE_SYSTEM_ID=filesystemid
+FILE_SYSTEM_ID=response["FileSystemId"]
 MOUNT_POINT="/var/www/html"
 REGION='us-east-1'
 
@@ -737,11 +737,13 @@ sudo yum install python3
 
 #Mounting 
 sudo yum install -y nfs-utils
-sudo echo ${FILE_SYSTEM_ID}
-sudo mkdir -p ${MOUNT_POINT}
-sudo chown ec2-user:ec2-user ${MOUNT_POINT}
-sudo echo ${FILE_SYSTEM_ID}.efs.${REGION}.amazonaws.com:/ ${MOUNT_POINT} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0 >> /etc/fstab
-sudo mount -a -t nfs4
+sudo echo ${file}
+sudo mkdir -p ${mount_point}
+sudo chown ec2-user:ec2-user ${mount_point}
+#sudo echo ${file}.efs.${region}.amazonaws.com:/ ${mount_point} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0 >> /etc/fstab
+#sudo mount -a -t nfs4
+echo "${file}.efs.${region}.amazonaws.com:/ ${mount_point} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0" | sudo tee -a /etc/fstab
+sudo mount -a 
 sudo chmod -R 755 /var/www/html
 
 sudo yum install git -y
@@ -830,7 +832,7 @@ sudo service httpd restart
 ##Enable httpd 
 sudo systemctl enable httpd 
 sudo /sbin/sysctl -w net.ipv4.tcp_keepalive_time=200 net.ipv4.tcp_keepalive_intvl=200 net.ipv4.tcp_keepalive_probes=5
-""".format(FILE_SYSTEM_ID,REGION,MOUNT_POINT)
+""".format(file=FILE_SYSTEM_ID,region=REGION,mount_point=MOUNT_POINT)
 
 encoded_user_data = base64.b64encode(USER_DATA.encode('utf-8')).decode('utf-8')
 

@@ -319,6 +319,22 @@ response=pubrule1.authorize_security_group_ingress(
     ]
 )
 
+
+#Aloowing NFS for ec2 instance as this is necessary for target mount
+pubrule7=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+
+response=pubrule7.authorize_security_group_ingress(
+    GroupId=pubsgid,
+    IpPermissions=[
+        {
+            'IpProtocol': 'tcp',
+            'FromPort': 2049,
+            'ToPort': 2049,
+            'IpRanges': [{'CidrIp': '0.0.0.0/0'}]  
+        }
+    ]
+)
+
 pubrule2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response=pubrule2.authorize_security_group_ingress(
     GroupId=pubsgid,
@@ -718,6 +734,7 @@ sudo yum update -y
 #Mounting 
 sudo yum install -y nfs-utils
 FILE_SYSTEM_ID=filesystemid
+sudo echo ${FILE_SYSTEM_ID}
 AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone )
 REGION=${AVAILABILITY_ZONE:0:-1}
 MOUNT_POINT=/var/www/html

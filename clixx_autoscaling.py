@@ -724,6 +724,10 @@ FILE=response["FileSystemId"]
 MOUNT_POINT="/var/www/html"
 REGION='us-east-1'
 LB_NS='https://dev.clixx-azeez.com'
+WP_CONFIG_PATH="/var/www/html/wp-config.php"
+CONDITIONAL_STATEMENT="if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {\n $_SERVER['HTTPS'] = 'on';\n}"
+
+
 
 
 #Creating Launch Template 
@@ -799,6 +803,13 @@ else
     echo "sed was not done"
 fi
 
+sudo sed -i.bak "/That's all, stop editing!/i {CONDITIONAL_STATEMENT}" "{WP_CONFIG_PATH}"
+if [ $? == 0 ]
+then
+    echo "sed for condtional statement was done"
+else
+    echo "sed for condtional statement was not done"
+fi
 
 
 #DNS=$(curl http://169.254.169.254/latest/meta-data/public-hostname)
@@ -841,7 +852,7 @@ sudo service httpd restart
 sudo systemctl enable httpd 
 sudo /sbin/sysctl -w net.ipv4.tcp_keepalive_time=200 net.ipv4.tcp_keepalive_intvl=200 net.ipv4.tcp_keepalive_probes=5
 
-""".format(file=FILE, region=REGION, mount_point=MOUNT_POINT, lb_dns=LB_NS)
+""".format(file=FILE, region=REGION, mount_point=MOUNT_POINT, lb_dns=LB_NS, condition=CONDITIONAL_STATEMENT, wp=WP_CONFIG_PATH)
 
 
 encoded_user_data = base64.b64encode(USER_DATA.encode('utf-8')).decode('utf-8')

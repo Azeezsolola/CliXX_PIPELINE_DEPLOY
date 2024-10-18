@@ -744,7 +744,7 @@ sudo yum install -y nfs-utils
 #REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/region --header "X-aws-ec2-metadata-token: $TOKEN")
 #MOUNT_POINT="/var/www/html"
 sudo mkdir -p {mount_point}
-sudo chown ec2-user:ec2-user ${mount_point}
+sudo chown ec2-user:ec2-user {mount_point}
 echo "{file}.efs.{region}.amazonaws.com:/ {mount_point} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0" | sudo tee -a /etc/fstab
 sudo mount -a 
 
@@ -789,7 +789,7 @@ cp -r CliXX_Retail_Repository/* /var/www/html
 
 ## Allow wordpress to use Permalinks
 sudo sed -i '151s/None/All/' /etc/httpd/conf/httpd.conf
-sudo sed -i 's/wordpress-db.cc5iigzknvxd.us-east-1.rds.amazonaws.com/wordpressdbclixx-ecs.cn2yqqwoac4e.us-east-1.rds.amazonaws.com/' /var/www/html/wp-config.php
+sudo sed -i 's/wordpress-db.cc5iigzknvxd.us-east-1.rds.amazonaws.com/wordpressdbclixx-ecs2.cn2yqqwoac4e.us-east-1.rds.amazonaws.com/' /var/www/html/wp-config.php
 
 if [ $? == 0 ]
 then

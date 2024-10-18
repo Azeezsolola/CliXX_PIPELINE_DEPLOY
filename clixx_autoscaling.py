@@ -803,7 +803,7 @@ else
     echo "sed was not done"
 fi
 
-sudo sed -i.bak "/That's all, stop editing!/i {CONDITIONAL_STATEMENT}" "{WP_CONFIG_PATH}"
+sudo sed -i.bak "/That's all, stop editing!/i {condition}" {wp}
 if [ $? == 0 ]
 then
     echo "sed for condtional statement was done"

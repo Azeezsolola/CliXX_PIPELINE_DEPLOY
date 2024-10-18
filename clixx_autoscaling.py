@@ -720,10 +720,10 @@ for subnet_id in subnet_ids:
 
 
 
-file=response["FileSystemId"]
-mount_point="/var/www/html"
-region='us-east-1'
-lb_dns='https://dev.clixx-azeez.com'
+FILE=response["FileSystemId"]
+MOUNT_POINT="/var/www/html"
+REGION='us-east-1'
+LB_NS='https://dev.clixx-azeez.com'
 
 
 #Creating Launch Template 
@@ -743,9 +743,9 @@ sudo yum install -y nfs-utils
 #TOKEN=$(curl --request PUT "http://169.254.169.254/latest/api/token" --header "X-aws-ec2-metadata-token-ttl-seconds: 3600")
 #REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/region --header "X-aws-ec2-metadata-token: $TOKEN")
 #MOUNT_POINT="/var/www/html"
-sudo mkdir -p ${mount_point}
+sudo mkdir -p {mount_point}
 sudo chown ec2-user:ec2-user ${mount_point}
-echo "${file}.efs.${region}.amazonaws.com:/ ${mount_point} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0" | sudo tee -a /etc/fstab
+echo "{file}.efs.{region}.amazonaws.com:/ {mount_point} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0" | sudo tee -a /etc/fstab
 sudo mount -a 
 
 sudo yum install git -y
@@ -758,8 +758,8 @@ sudo systemctl is-enabled httpd
 ##Add ec2-user to Apache group and grant permissions to /var/www
 sudo usermod -a -G apache ec2-user
 sudo chown -R ec2-user:apache /var/www
-sudo chmod 2775 /var/www && find /var/www -type d -exec sudo chmod 2775 {} \;
-find /var/www -type f -exec sudo chmod 0664 {} \;
+sudo chmod 2775 /var/www && find /var/www -type d -exec sudo chmod 2775 {{}} \;
+find /var/www -type f -exec sudo chmod 0664 {{}} \;
 cd /var/www/html
 
 #Install wordpress and unzip it/copy the sample php conf to wp-config
@@ -807,14 +807,14 @@ sleep 600
 output_variable=$(mysql -u wordpressuser -p -h wordpressdbclixx-ecs.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123 -sse "select option_value from wp_options where option_value like 'CliXX-APP-%';")
 echo $output_variable
 
-if [ output_variable == ${lb_dns} ]
+if [ output_variable == {lb_dns} ]
 then
     echo "DNS Address in the the table"
 else
     echo "DNS Address is not in the table"
     #Logging DB
     mysql -u wordpressuser -p -h wordpressdbclixx-ecs.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123<<EOF
-    UPDATE wp_options SET option_value ="${lb_dns}" WHERE option_value LIKE "CliXX-APP-%";
+    UPDATE wp_options SET option_value ="{lb_dns}" WHERE option_value LIKE "CliXX-APP-%";
 EOF
 fi
 
@@ -827,10 +827,10 @@ sudo chgrp -R apache /var/www
 
 ##Change directory permissions of /var/www & its subdir to add group write 
 sudo chmod 2775 /var/www
-find /var/www -type d -exec sudo chmod 2775 {} \;
+find /var/www -type d -exec sudo chmod 2775 {{}} \;
 
 ##Recursively change file permission of /var/www & subdir to add group write perm
-sudo find /var/www -type f -exec sudo chmod 0664 {} \;
+sudo find /var/www -type f -exec sudo chmod 0664 {{}} \;
 
 ##Restart Apache
 sudo systemctl restart httpd
@@ -840,8 +840,8 @@ sudo service httpd restart
 sudo systemctl enable httpd 
 sudo /sbin/sysctl -w net.ipv4.tcp_keepalive_time=200 net.ipv4.tcp_keepalive_intvl=200 net.ipv4.tcp_keepalive_probes=5
 
-"""
-USER_DATA = USER_DATA.format(file=file, region=region, mount_point=mount_point, lb_dns=lb_dns)
+""".format(file=FILE, region=REGION, mount_point=MOUNT_POINT, lb_dns=LB_NS)
+
 
 encoded_user_data = base64.b64encode(USER_DATA.encode('utf-8')).decode('utf-8')
 

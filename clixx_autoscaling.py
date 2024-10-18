@@ -725,7 +725,7 @@ MOUNT_POINT="/var/www/html"
 REGION='us-east-1'
 LB_NS='https://dev.clixx-azeez.com'
 WP_CONFIG_PATH="/var/www/html/wp-config.php"
-CONDITIONAL_STATEMENT="if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {\n $_SERVER['HTTPS'] = 'on';\n}"
+CONDITIONAL_STATEMENT="if (isset(\$_SERVER['HTTP_X_FORWARDED_PROTO']) && \$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {\\n \$_SERVER['HTTPS'] = 'on';\\n}"
 
 
 

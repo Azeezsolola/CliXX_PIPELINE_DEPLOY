@@ -746,6 +746,7 @@ sudo yum install -y nfs-utils
 sudo mkdir -p {mount_point}
 sudo chown ec2-user:ec2-user {mount_point}
 echo "{file}.efs.{region}.amazonaws.com:/ {mount_point} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0" | sudo tee -a /etc/fstab
+sleep 300
 sudo mount -a 
 
 sudo yum install git -y
@@ -804,7 +805,7 @@ fi
 #echo $DNS
 #DNS=${lb_dns}
 sleep 600
-output_variable=$(mysql -u wordpressuser -p -h wordpressdbclixx-ecs.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123 -sse "select option_value from wp_options where option_value like 'CliXX-APP-%';")
+output_variable=$(mysql -u wordpressuser -p -h wordpressdbclixx-ecs2.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123 -sse "select option_value from wp_options where option_value like 'CliXX-APP-%';")
 echo $output_variable
 
 if [ output_variable == {lb_dns} ]
@@ -813,7 +814,7 @@ then
 else
     echo "DNS Address is not in the table"
     #Logging DB
-    mysql -u wordpressuser -p -h wordpressdbclixx-ecs.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123<<EOF
+    mysql -u wordpressuser -p -h wordpressdbclixx-ecs2.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123<<EOF
     UPDATE wp_options SET option_value ="{lb_dns}" WHERE option_value LIKE "CliXX-APP-%";
 EOF
 fi

@@ -15,7 +15,7 @@ print(credentials)
 
 
 
-"""
+
 
 #--------------------Calling ssm to get value of RDS id -------------------------------------------
 
@@ -324,7 +324,7 @@ response = igw.delete_internet_gateway(
 )
 
 time.sleep(300)
-"""
+
 #-----------------calling ssm to vpc info ----------------------------------
 
 ssm=boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)

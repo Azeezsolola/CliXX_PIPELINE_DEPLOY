@@ -33,7 +33,7 @@ response = rds_client.delete_db_instance(
 
 time.sleep(400)
 
-"""
+
 
 #---------------Caling ssm to get load balacer arn -------------------------------------------
 
@@ -65,30 +65,30 @@ response = elb2.delete_target_group(
 )
 
 time.sleep(60)
-"""
+
 mounttarget=boto3.client('efs',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 for x in ["fsmt-0aee0138c576924f7","fsmt-0a917953edb97de19"]:
     response=mounttarget.delete_mount_target(
     MountTargetId=x)
-"""
 
 
-	
+
+
 time.sleep(80)
-
+"""
 
 #-----------calling ssm to get autos caling group info ------------------------------------------
 
 ssm=boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = ssm.get_parameter(Name='/myapp/austoscaling', WithDecryption=True)
-autoscaling=response['Parameter']['Value']
+autoscaling_groupname=response['Parameter']['Value']
 print(autoscaling)
 
 
 #Deleting Autoscaling group
 autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response =autoscaling.delete_auto_scaling_group(
-    AutoScalingGroupName=autoscaling,
+    AutoScalingGroupName=autoscaling_groupname,
     ForceDelete=True
 )
 

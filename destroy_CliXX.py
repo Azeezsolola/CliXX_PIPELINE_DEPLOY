@@ -289,7 +289,7 @@ response = LT.delete_launch_template(
     LaunchTemplateId=template
     
 )
-"""
+
 time.sleep(180)
 #---------------------------Detaching internet gateway from vpc -------------------------------------
 ssm=boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
@@ -324,7 +324,7 @@ response = igw.delete_internet_gateway(
 )
 
 time.sleep(300)
-
+"""
 #-----------------calling ssm to vpc info ----------------------------------
 
 ssm=boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
@@ -333,8 +333,8 @@ vpc=response['Parameter']['Value']
 print(vpc)
 
 #Delete VPC
-vpc=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = vpc.delete_vpc(
+vpc1=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = vpc1.delete_vpc(
     VpcId=vpc,
     DryRun=False
 )

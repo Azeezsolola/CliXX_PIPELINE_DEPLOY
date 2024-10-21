@@ -911,19 +911,6 @@ print(filesystemid)
 time.sleep(300)
 
 
-#----------------------CAlling ssm to store filesystem id ---------------------------------------------
-
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ssm.put_parameter(
-    Name='/myapp/filesystem',
-    Value=filesystemid,
-    Type='String',
-    Overwrite=True
-)
-
-print(response)
-
-
 
 #---------------------------------Attaching Security group to efs --------------------------------------
 filesystemid=response["FileSystemId"]
@@ -936,7 +923,13 @@ for subnet_id in subnet_ids:
         SubnetId=subnet_id,
         SecurityGroups=[privsgid]
     )
-  
+
+
+
+
+
+
+
   
   
 
@@ -945,7 +938,7 @@ for subnet_id in subnet_ids:
 
 
 
-FILE=response["FileSystemId"]
+FILE=filesystemid
 MOUNT_POINT="/var/www/html"
 REGION='us-east-1'
 LB_NS='https://dev.clixx-azeez.com'
@@ -1266,3 +1259,14 @@ print(response)
 
 
 
+#----------------------CAlling ssm to store filesystem id ---------------------------------------------
+
+ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = ssm.put_parameter(
+    Name='/myapp/filesystem',
+    Value=filesystemid,
+    Type='String',
+    Overwrite=True
+)
+
+print(response)

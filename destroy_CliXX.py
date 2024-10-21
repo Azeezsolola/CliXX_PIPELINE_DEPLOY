@@ -15,7 +15,7 @@ print(credentials)
 
 
 
-
+"""
 
 #--------------------Calling ssm to get value of RDS id -------------------------------------------
 
@@ -105,6 +105,9 @@ for mount_target_id in mount_target_ids:
         )
 
 
+time.sleep(120)
+
+"""
 #---------------------calling ssm to get file syatem info -------------------------------------------------------
 
 
@@ -214,7 +217,7 @@ response = routetab.delete_route_table(
     )
 
 
-
+time.sleep(60)
 
 #------------------------Deleting route table 2 -----------------------------------------
 
@@ -230,7 +233,7 @@ response = routetab2.delete_route_table(
     )
 
 
-    
+time.sleep(60)
 #------------------Deleting rds subnet group name---------------------------------------------------------------
 ssm=boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = ssm.get_parameter(Name='/myapp/subgroupname', WithDecryption=True)
@@ -243,7 +246,7 @@ response = rds_client.delete_db_subnet_group(
 )
 
 
-
+time.sleep(60)
 #-------------------------------Delete SG--------------------------------------------------------------------------
 ssm=boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = ssm.get_parameter(Name='/myapp/securitygroupid1', WithDecryption=True)

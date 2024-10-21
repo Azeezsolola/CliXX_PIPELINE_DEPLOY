@@ -82,7 +82,7 @@ time.sleep(80)
 ssm=boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = ssm.get_parameter(Name='/myapp/austoscaling', WithDecryption=True)
 autoscaling_groupname=response['Parameter']['Value']
-print(autoscaling)
+print(autoscaling_groupname)
 
 
 #Deleting Autoscaling group

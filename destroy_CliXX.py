@@ -122,7 +122,7 @@ response = efs.delete_file_system(
     FileSystemId=filesystem
 )
 
-"""
+
 
 
 #---------calling ssm to get nat gateway info ------------------------------------------------
@@ -289,8 +289,8 @@ response = LT.delete_launch_template(
     LaunchTemplateId=template
     
 )
-
-
+"""
+time.sleep(180)
 #-----------------------------Deleting Internet Gateway-----------------------------------------------
 ssm=boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = ssm.get_parameter(Name='/myapp/internet', WithDecryption=True)

@@ -17,18 +17,27 @@ print(credentials)
 
 
 
+#--------------------Calling ssm to get value of RDS id -------------------------------------------
 
+ssm=boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = ssm.get_parameter(Name='/myapp/rdsidentifier', WithDecryption=True)
+rdsvalue=response['Parameter']['Value']
+print(rdsvalue)
 
 #Deleting RDS
 rds_client=boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = rds_client.delete_db_instance(
-    DBInstanceIdentifier='wordpressdbclixx-ecs2',
+    DBInstanceIdentifier=rdsvalue,
     SkipFinalSnapshot=True
     )
 
-time.sleep(200)
+time.sleep(400)
 
-"""
+
+
+#---------------Caling ssm to get load balacer arn -------------------------------------------
+
+
 #Deleting Load Balancer
 elb=boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = elb.delete_load_balancer(
@@ -36,7 +45,7 @@ response = elb.delete_load_balancer(
 )
 
 time.sleep(60)
-"""
+
 
 #Deleting target group
 elb2=boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
@@ -45,12 +54,12 @@ response = elb2.delete_target_group(
 )
 
 time.sleep(60)
-
+"""
 mounttarget=boto3.client('efs',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 for x in ["fsmt-0aee0138c576924f7","fsmt-0a917953edb97de19"]:
     response=mounttarget.delete_mount_target(
     MountTargetId=x)
-
+"""
 
 
 	

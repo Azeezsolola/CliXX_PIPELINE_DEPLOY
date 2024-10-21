@@ -42,21 +42,9 @@ print(response)
 vpcid=response['Vpc']['VpcId']
 print(vpcid)
 
-#--------CAlling SSM parameter to store vpcid ---------------
-
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-
-response = ssm.put_parameter(
-    Name='/myapp/vpcid',
-    Value=vpcid,
-    Type='String',
-    Overwrite=True
-)
-
-print(response)
 
 
-#--------------Enabling VPC DNS Resolution-------------------------
+#Enabling VPC DNS Resolution
 vpcresolution=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = vpcresolution.modify_vpc_attribute(
     EnableDnsHostnames={
@@ -67,7 +55,7 @@ response = vpcresolution.modify_vpc_attribute(
 )
 print(vpcresolution)
 
-#---------------Enabling DNS support in the VPC----------------------------
+#Enabling DNS support in the VPC
 vpcresolution2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = vpcresolution2.modify_vpc_attribute(
     EnableDnsSupport={
@@ -81,7 +69,7 @@ print(vpcresolution2)
 
 
 
-#----------------creating public subnet ------------------------------------
+#Creating public subnet 
 
 subnet=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = subnet.create_subnet(
@@ -106,20 +94,7 @@ publicsubnetid=response['Subnet']['SubnetId']
 print(publicsubnetid)
 
 
-#-----------CAlling SSM PARAMETER to store pubsunet id -------------
-
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ssm.put_parameter(
-    Name='/myapp/pubsubid1',
-    Value=publicsubnetid,
-    Type='String',
-    Overwrite=True
-)
-
-print(response)
-
-#---------------------Creating private subnet ------------------------------------
-
+#Creating private subnet 
 subnetpub=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = subnetpub.create_subnet(
     TagSpecifications=[
@@ -142,20 +117,8 @@ print(response)
 privatesubnetid=response['Subnet']['SubnetId']
 print(privatesubnetid)
 
-#---------------Calling ssm parameter to store private subnet id ----------------
 
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ssm.put_parameter(
-    Name='/myapp/privsubid1',
-    Value=privatesubnetid,
-    Type='String',
-    Overwrite=True
-)
-
-print(response)
-
-#--------------------Create internet Gateway---------------------------
-
+#Create internet Gateway
 internetgateway=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response =internetgateway.create_internet_gateway(
     TagSpecifications=[
@@ -177,24 +140,12 @@ intgwid=response['InternetGateway']['InternetGatewayId']
 print(intgwid)
 
 
-#-----------calling ssm to store the internet gateway id -------------------------------
-
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ssm.put_parameter(
-    Name='/myapp/internet',
-    Value=intgwid,
-    Type='String',
-    Overwrite=True
-)
-
-print(response)
 
 
 
 
 
-#--------------------internet gateway attachment to the vpc----------------------------------------
-
+#internet gateway attachment to the vpc
 internetattach=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = internetattach.attach_internet_gateway(
     DryRun=False,
@@ -206,8 +157,7 @@ print(response)
 
 
 
-#----------------------------Creating Route table-----------------------------------
-
+#Creating Route table
 RT=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = RT.create_route_table(
     TagSpecifications=[
@@ -230,23 +180,7 @@ routetableid=response['RouteTable']['RouteTableId']
 print(routetableid)
 
 
-
-#-----------------Calling ssm to store routetable id --------------------------
-
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ssm.put_parameter(
-    Name='/myapp/routetable1',
-    Value=routetableid,
-    Type='String',
-    Overwrite=True
-)
-
-print(response)
-
-
-
-#------------------------Putting Entry in the public route table-----------------------------------
-
+#Putting Entry in the public route table
 publicRTENTRY=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = publicRTENTRY.create_route(
     RouteTableId=routetableid,       
@@ -259,8 +193,7 @@ print(response)
 
 
 
-#--------------------------------Creating NAT gateway----------------------------------------------
-
+#Creating NAT gateway
 NAT=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = NAT.create_nat_gateway(
     AllocationId='eipalloc-04292754825061e16',
@@ -286,23 +219,9 @@ print(natid)
 
 time.sleep(120)
 
-#------------------Calling ssm parameter to store nat gateway id -------------------------------
-
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ssm.put_parameter(
-    Name='/myapp/natgateway',
-    Value=routetableid,
-    Type='String',
-    Overwrite=True
-)
-
-print(response)
 
 
-
-
-#-----------------------------------Creating private route table-------------------------------------
-
+#Creating private route table
 RT2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = RT2.create_route_table(
     TagSpecifications=[
@@ -324,22 +243,7 @@ privateroutetableid=response['RouteTable']['RouteTableId']
 print(privateroutetableid)
 
 
-
-#-----------------Calling ssm to store route tabele id --------------------------------
-
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ssm.put_parameter(
-    Name='/myapp/routetable2',
-    Value=privateroutetableid,
-    Type='String',
-    Overwrite=True
-)
-
-print(response)
-
-
-#--------------------------Creating entry in the private route table----------------------------------
-
+#Creating entry in the private route table
 privateRTENTRY=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = privateRTENTRY.create_route(
     RouteTableId=privateroutetableid,       
@@ -349,8 +253,7 @@ response = privateRTENTRY.create_route(
 print(response)
 
 
-#-------------------------------Associating route table to public subnet ------------------------------
- 
+#Associating route table to public subnet  
 igwass=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = igwass.associate_route_table(
     #GatewayId=intgwid,
@@ -363,8 +266,7 @@ print(response)
 
 
 
-#-------------------------------Associating route tabel with private subnet -----------------------------
-
+#Associating route tabel with private subnet 
 igwass2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = igwass2.associate_route_table(
     #GatewayId=intgwid,
@@ -378,8 +280,7 @@ print(response)
 
 
 
-#----------------------------------Creating security group for instance in the public subnet -----------------------------
-
+#Creating security group for instance in the public subnet 
 pubsg=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = pubsg.create_security_group(
     Description='public_subnet_SG',
@@ -404,22 +305,9 @@ print(pubsgid)
 
 
 
-#-------------------------------Calling ssm to storee security group id -------------------------------------
-
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ssm.put_parameter(
-    Name='/myapp/securitygroupid1',
-    Value=pubsgid,
-    Type='String',
-    Overwrite=True
-)
-
-print(response)
-
-
-#---------------------------------Adding Rules to security Group-----------------------------------------
-
+#Adding Rules to security Group
 pubrule1=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+
 response=pubrule1.authorize_security_group_ingress(
     GroupId=pubsgid,
     IpPermissions=[
@@ -433,8 +321,7 @@ response=pubrule1.authorize_security_group_ingress(
 )
 
 
-#---------------------------loowing NFS for ec2 instance as this is necessary for target mount--------------------------
-
+#Aloowing NFS for ec2 instance as this is necessary for target mount
 pubrule7=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 
 response=pubrule7.authorize_security_group_ingress(
@@ -481,8 +368,7 @@ response=pubrule3.authorize_security_group_ingress(
 
 
 
-#-------------------------------Creating security group for private subnet -------------------------------------
-
+#Creating security group for private subnet 
 privsg=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = privsg.create_security_group(
     Description='private_subnet_SG',
@@ -506,22 +392,7 @@ privsgid=response['GroupId']
 print(privsgid)
 
 
-
-#---------------------------calling ssm to store security group id ------------------------------
-
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ssm.put_parameter(
-    Name='/myapp/securitygroupid2',
-    Value=privsgid,
-    Type='String',
-    Overwrite=True
-)
-
-print(response)
-
-
-#-----------------------------------------------------Adding rules to the private security group-------------------------
-
+#Adding rules to the private security group
 privrule1=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response=privrule1.authorize_security_group_ingress(
     GroupId=privsgid,
@@ -563,8 +434,7 @@ response=privrule3.authorize_security_group_ingress(
 )
 
 
-#-------------------------------Adding rules to the private security group-----------------------------------
-
+#Adding rules to the private security group
 privrule1=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response=privrule1.authorize_security_group_ingress(
     GroupId=privsgid,
@@ -579,8 +449,7 @@ response=privrule1.authorize_security_group_ingress(
 )
 
 
-#---------------------------------Creating private subnet 2 for RDS-------------------------------------
-
+#Creating private subnet 2 for RDS
 subnetpriv=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = subnetpriv.create_subnet(
     TagSpecifications=[
@@ -604,20 +473,9 @@ privatesubnetid2=response['Subnet']['SubnetId']
 print(privatesubnetid2)
 
 
-#-------------------Calling ssm to store private subnet id --------------------------------------
 
 
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ssm.put_parameter(
-    Name='/myapp/privsubnet2',
-    Value=privatesubnetid2,
-    Type='String',
-    Overwrite=True
-)
-
-print(response)
-
-#----------------------------------------Associating route tabel with private subnet -----------------------------
+#Associating route tabel with private subnet 
 igwass3=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = igwass3.associate_route_table(
     #GatewayId=intgwid,
@@ -630,8 +488,7 @@ print(response)
 
 
 
-#---------------------------------Creating RDS group for RDS DB----------------------------------
-
+#Creating RDS group for RDS DB
 rdsdbsub = boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = rdsdbsub.create_db_subnet_group(
     DBSubnetGroupName='rdsdbsubgroup',
@@ -648,20 +505,9 @@ response = rdsdbsub.create_db_subnet_group(
 print(response)
 
 
-#---------------------------------calling ssm to store rds groupname ----------------------------
 
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ssm.put_parameter(
-    Name='/myapp/subgroupname',
-    Value='rdsdbsubgroup',
-    Type='String',
-    Overwrite=True
-)
 
-print(response)
-
-#------------------------------Create RDS DB-----------------------------------------
-
+# Create RDS DB
 rds_client = boto3.client('rds',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 # Restore DB instance from snapshot
 response = rds_client.restore_db_instance_from_db_snapshot(
@@ -678,21 +524,8 @@ print(response)
 time.sleep(600)
 
 
-#--------------------Calling ssm to store rds id ----------------------------------------
 
-
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ssm.put_parameter(
-    Name='/myapp/rdsidentifier',
-    Value='wordpressdbclixx-ecs2',
-    Type='String',
-    Overwrite=True
-)
-
-print(response)
-
-
-#------------------------------------------Creating public subnet 2 because of the load balancer --------------------
+#Creating public subnet 2 because of the load balancer 
 
 subnet2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = subnet2.create_subnet(
@@ -719,20 +552,7 @@ print(publicsubnetid2)
 
 
 
-#---------------------Calling ssm to store public subnet 2 id ---------------------------------
-
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ssm.put_parameter(
-    Name='/myapp/pubsub2',
-    Value=publicsubnetid2,
-    Type='String',
-    Overwrite=True
-)
-
-print(response)
-
-#------------------------Associating route table to newly created public subnet  ---------------------------
-
+#Associating route table to newly created public subnet  
 igwass5=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = igwass5.associate_route_table(
     #GatewayId=intgwid,
@@ -745,8 +565,7 @@ print(response)
 
 
 
-#--------------------------------Creating Load balancer -------------------------------------------------
-
+#Creating Load balancer 
 elb=boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = elb.create_load_balancer(
     Name='autoscalinglb2-azeez',
@@ -777,21 +596,7 @@ time.sleep(300)
 
 
 
-#--------------------Calling ssm parameter to store load balancer arn -------------------------
-
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ssm.put_parameter(
-    Name='/myapp/loadbalancer',
-    Value=loadbalancerarn,
-    Type='String',
-    Overwrite=True
-)
-
-print(response)
-
-
-#-----------------------------Creating Target Group------------------------------------
-
+#Creating Target Group
 response = elb.create_target_group(
     Name='clixxautoscalingtg2',
     Protocol='HTTP',
@@ -819,21 +624,7 @@ targetgrouparn=response['TargetGroups'][0]['TargetGroupArn']
 print(targetgrouparn)
 
 
-#----------------------Calling ssm parameter to store target group id -------------------------------
-
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ssm.put_parameter(
-    Name='/myapp/targetgroup',
-    Value=targetgrouparn,
-    Type='String',
-    Overwrite=True
-)
-
-print(response)
-
-
-#------------------------Creating listner on load balancer and attaching taregt group-------------------------
-
+#Creating listner on load balancer and attaching taregt group
 elb1 = boto3.client('elbv2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = elb1.create_listener(
     LoadBalancerArn=loadbalancerarn, 
@@ -856,8 +647,7 @@ print(listener_arn)
 
 
 
-#------------------------------tie domain name with lb DNS--------------------------------------
-
+#tie domain name with lb DNS
 route53=boto3.client('route53',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = route53.change_resource_record_sets(
     HostedZoneId='Z0099082ZFVZUBLTJX9D',
@@ -887,7 +677,6 @@ print(response)
 
 
 
-#----------------------creating efs --------------------------------------
 
 efs=boto3.client('efs',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 # Create a file system
@@ -912,8 +701,7 @@ print(filesystemid)
 time.sleep(300)
 
 
-
-#---------------------------------Attaching Security group to efs --------------------------------------
+#Attaching Security group to efs 
 filesystemid=response["FileSystemId"]
 security_group_id=privsgid
 subnet_ids = [privatesubnetid2,privatesubnetid]
@@ -924,13 +712,7 @@ for subnet_id in subnet_ids:
         SubnetId=subnet_id,
         SecurityGroups=[privsgid]
     )
-
-
-
-
-
-
-
+  
   
   
 
@@ -939,7 +721,7 @@ for subnet_id in subnet_ids:
 
 
 
-FILE=filesystemid
+FILE=response["FileSystemId"]
 MOUNT_POINT="/var/www/html"
 REGION='us-east-1'
 LB_NS='https://dev.clixx-azeez.com'
@@ -1105,20 +887,9 @@ launchtempname=response["LaunchTemplate"]["LaunchTemplateName"]
 print(launchtempname)
 
 
-#-------------------------------Calling ssm to store template id -------------------------
 
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ssm.put_parameter(
-    Name='/myapp/launchtemp',
-    Value=launchtempid,
-    Type='String',
-    Overwrite=True
-)
 
-print(response)
-
-#-----------------------------Creating autoscaling---------------------------------
-
+#Creating autoscaling
 autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = autoscaling.create_auto_scaling_group(
     AutoScalingGroupName='my-auto-scaling-group',
@@ -1163,20 +934,9 @@ response = autoscaling.create_auto_scaling_group(
 print(response)
 
 
-#--------------------------Calling ssm to store auto scalingroup id  -----------------------------
 
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ssm.put_parameter(
-    Name='/myapp/austoscaling',
-    Value='my-auto-scaling-group',
-    Type='String',
-    Overwrite=True
-)
 
-print(response)
-
-#-------------------------------------creating Scale out policy-------------------------------------
-
+#creating Scale out policy
 autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 scale_up_policy = autoscaling.put_scaling_policy(
     AutoScalingGroupName='my-auto-scaling-group',
@@ -1189,8 +949,7 @@ print(scale_up_policy)
 
 
 
-#---------------------------------------Creating SCale Down Policy-------------------------------------
-
+#Creating SCale Down Policy
 autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 scale_down_policy = autoscaling.put_scaling_policy(
     AutoScalingGroupName='my-auto-scaling-group',
@@ -1205,8 +964,7 @@ print(scale_down_policy)
 
 
 
-#-------------------------------------Scale up alarm----------------------------------------
-
+# Scale up alarm
 cloudwatch = boto3.client('cloudwatch',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response=cloudwatch.put_metric_alarm(
     AlarmName='CPUUtilizationHigh',
@@ -1232,8 +990,7 @@ print(response)
 
 
 
-#-------------------------------------Scale down alarm--------------------------------------
-
+# Scale down alarm
 autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response=cloudwatch.put_metric_alarm(
     AlarmName='CPUUtilizationLow',
@@ -1260,14 +1017,3 @@ print(response)
 
 
 
-#----------------------CAlling ssm to store filesystem id ---------------------------------------------
-
-ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-response = ssm.put_parameter(
-    Name='/myapp/filesystem',
-    Value=filesystemid,
-    Type='String',
-    Overwrite=True
-)
-
-print(response)

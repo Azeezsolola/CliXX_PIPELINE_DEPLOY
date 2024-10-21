@@ -107,7 +107,7 @@ for mount_target_id in mount_target_ids:
 
 time.sleep(120)
 
-"""
+
 #---------------------calling ssm to get file syatem info -------------------------------------------------------
 
 
@@ -122,7 +122,7 @@ response = efs.delete_file_system(
     FileSystemId=filesystem
 )
 
-
+"""
 
 
 #---------calling ssm to get nat gateway info ------------------------------------------------

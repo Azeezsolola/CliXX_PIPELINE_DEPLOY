@@ -135,15 +135,66 @@ response = natgate.delete_nat_gateway(
 time.sleep(60)
 
 """
-#Delete Subnets 
+#---------Deleting ptivate sub1--------------------------------------------------
+ssm=boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = ssm.get_parameter(Name='/myapp/privsubid1', WithDecryption=True)
+priv1=response['Parameter']['Value']
+print(priv1)
+
 sub=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-for x in ["subnet-0f44a097b73f921f9","subnet-0a955d33be98b8cd0","subnet-040595dd91d9860da","subnet-05aaacd74b93ab16d"]:
-    response = sub.delete_subnet(
-    SubnetId=x,
+response = sub.delete_subnet(
+    SubnetId=priv1,
+    DryRun=False
+)
+
+
+time.sleep(60)
+
+
+#-----------Deleting pub subnet 1-----------------------------------------
+ssm=boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = ssm.get_parameter(Name='/myapp/pubsubid1', WithDecryption=True)
+pub1=response['Parameter']['Value']
+print(pub1)
+
+sub=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = sub.delete_subnet(
+    SubnetId=pub1,
     DryRun=False
 )
 
 time.sleep(60)
+
+#---------------------------Deleting private subnet 2 -------------------------------------------
+ssm=boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = ssm.get_parameter(Name='/myapp/privsubnet2', WithDecryption=True)
+priv2=response['Parameter']['Value']
+print(priv2)
+
+sub=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = sub.delete_subnet(
+    SubnetId=priv2,
+    DryRun=False
+)
+
+time.sleep(60)
+
+
+#------------------------Deleting pub subnet 2----------------------------------------------------
+
+ssm=boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = ssm.get_parameter(Name='/myapp/pubsub2', WithDecryption=True)
+pub2=response['Parameter']['Value']
+print(pub2)
+
+sub=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = sub.delete_subnet(
+    SubnetId=pub2,
+    DryRun=False
+)
+
+time.sleep(60)
+
 
 
 #Deleteing Route tablr

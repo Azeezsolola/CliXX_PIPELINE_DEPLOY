@@ -291,7 +291,7 @@ time.sleep(120)
 ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = ssm.put_parameter(
     Name='/myapp/natgateway',
-    Value=routetableid,
+    Value=natid,
     Type='String',
     Overwrite=True
 )

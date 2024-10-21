@@ -291,11 +291,31 @@ response = LT.delete_launch_template(
 )
 """
 time.sleep(180)
+#---------------------------Detaching internet gateway from vpc -------------------------------------
+ssm=boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = ssm.get_parameter(Name='/myapp/internet', WithDecryption=True)
+internet=response['Parameter']['Value']
+print(internet)
+
+ssm=boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = ssm.get_parameter(Name='/myapp/vpcid', WithDecryption=True)
+vpc=response['Parameter']['Value']
+print(vpc)
+
+igw=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response=igw.detach_internet_gateway(
+        InternetGatewayId=internet,
+        VpcId=vpc
+)
+
+
 #-----------------------------Deleting Internet Gateway-----------------------------------------------
 ssm=boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = ssm.get_parameter(Name='/myapp/internet', WithDecryption=True)
 internet=response['Parameter']['Value']
 print(internet)
+
+
 
 igw=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
 response = igw.delete_internet_gateway(

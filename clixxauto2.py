@@ -16,7 +16,7 @@ print(credentials)
 
 
 
-"""
+
 
 #-----------------Creating VPC-----------------------
 VPC=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
@@ -884,7 +884,7 @@ response = route53.change_resource_record_sets(
 print(response)
 
 
-"""
+
 
 
 #----------------------creating efs --------------------------------------
@@ -924,9 +924,6 @@ for subnet_id in subnet_ids:
         SubnetId=subnet_id,
         SecurityGroups=[privsgid]
     )
-  mount_target_id = response['MountTargetId']
-  
-  
 
 
 
@@ -942,335 +939,335 @@ for subnet_id in subnet_ids:
 
 
 
-# FILE=filesystemid
-# MOUNT_POINT="/var/www/html"
-# REGION='us-east-1'
-# LB_NS='https://dev.clixx-azeez.com'
-# WP_CONFIG_PATH="/var/www/html/wp-config.php"
-# CONDITIONAL_STATEMENT="if (isset(\$_SERVER['HTTP_X_FORWARDED_PROTO']) && \$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {\\n \$_SERVER['HTTPS'] = 'on';\\n}"
+FILE=filesystemid
+MOUNT_POINT="/var/www/html"
+REGION='us-east-1'
+LB_NS='https://dev.clixx-azeez.com'
+WP_CONFIG_PATH="/var/www/html/wp-config.php"
+CONDITIONAL_STATEMENT="if (isset(\$_SERVER['HTTP_X_FORWARDED_PROTO']) && \$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {\\n \$_SERVER['HTTPS'] = 'on';\\n}"
 
 
 
 
-# #Creating Launch Template 
+#Creating Launch Template 
 
-# AWS_REGION='us-east-1'
-# USER_DATA = """#!/bin/bash
+AWS_REGION='us-east-1'
+USER_DATA = """#!/bin/bash
 
-# ##Install the needed packages and enable the services(MariaDb, Apache)
-# sudo yum update -y
+##Install the needed packages and enable the services(MariaDb, Apache)
+sudo yum update -y
 
-# #Get Ipaddress
-# #IP_ADDRESS=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
+#Get Ipaddress
+#IP_ADDRESS=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
 
-# #Mounting 
-# sudo yum install -y nfs-utils
+#Mounting 
+sudo yum install -y nfs-utils
 
-# #TOKEN=$(curl --request PUT "http://169.254.169.254/latest/api/token" --header "X-aws-ec2-metadata-token-ttl-seconds: 3600")
-# #REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/region --header "X-aws-ec2-metadata-token: $TOKEN")
-# #MOUNT_POINT="/var/www/html"
-# sudo mkdir -p {mount_point}
-# sudo chown ec2-user:ec2-user {mount_point}
-# echo "{file}.efs.{region}.amazonaws.com:/ {mount_point} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0" | sudo tee -a /etc/fstab
-# sleep 300
-# sudo mount -a 
+#TOKEN=$(curl --request PUT "http://169.254.169.254/latest/api/token" --header "X-aws-ec2-metadata-token-ttl-seconds: 3600")
+#REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/region --header "X-aws-ec2-metadata-token: $TOKEN")
+#MOUNT_POINT="/var/www/html"
+sudo mkdir -p {mount_point}
+sudo chown ec2-user:ec2-user {mount_point}
+echo "{file}.efs.{region}.amazonaws.com:/ {mount_point} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0" | sudo tee -a /etc/fstab
+sleep 300
+sudo mount -a 
 
-# sudo yum install git -y
-# sudo amazon-linux-extras install -y lamp-mariadb10.2-php7.2 php7.2
-# sudo yum install -y httpd mariadb-server
-# sudo systemctl start httpd
-# sudo systemctl enable httpd
-# sudo systemctl is-enabled httpd
+sudo yum install git -y
+sudo amazon-linux-extras install -y lamp-mariadb10.2-php7.2 php7.2
+sudo yum install -y httpd mariadb-server
+sudo systemctl start httpd
+sudo systemctl enable httpd
+sudo systemctl is-enabled httpd
  
-# ##Add ec2-user to Apache group and grant permissions to /var/www
-# sudo usermod -a -G apache ec2-user
-# sudo chown -R ec2-user:apache /var/www
-# sudo chmod 2775 /var/www && find /var/www -type d -exec sudo chmod 2775 {{}} \;
-# find /var/www -type f -exec sudo chmod 0664 {{}} \;
-# cd /var/www/html
+##Add ec2-user to Apache group and grant permissions to /var/www
+sudo usermod -a -G apache ec2-user
+sudo chown -R ec2-user:apache /var/www
+sudo chmod 2775 /var/www && find /var/www -type d -exec sudo chmod 2775 {{}} \;
+find /var/www -type f -exec sudo chmod 0664 {{}} \;
+cd /var/www/html
 
-# #Install wordpress and unzip it/copy the sample php conf to wp-config
-# ##sudo wget https://wordpress.org/latest.tar.gz
-# ##sudo tar -xzf latest.tar.gz
-# ##cp wordpress/wp-config-sample.php wordpress/wp-config.php
-# ##start the mariadb and create a database/user and grant priv
+#Install wordpress and unzip it/copy the sample php conf to wp-config
+##sudo wget https://wordpress.org/latest.tar.gz
+##sudo tar -xzf latest.tar.gz
+##cp wordpress/wp-config-sample.php wordpress/wp-config.php
+##start the mariadb and create a database/user and grant priv
 
-# if [ -f /var/www/html/wp-config.php ]
-# then
-#     echo "wp-config.php already exists"
+if [ -f /var/www/html/wp-config.php ]
+then
+    echo "wp-config.php already exists"
     
-# else
-#     echo "wp-config.php does not exist"
-#     git clone https://github.com/stackitgit/CliXX_Retail_Repository.git
-# fi
+else
+    echo "wp-config.php does not exist"
+    git clone https://github.com/stackitgit/CliXX_Retail_Repository.git
+fi
         
 
 
-# #git clone https://github.com/stackitgit/CliXX_Retail_Repository.git
-# cp -r CliXX_Retail_Repository/* /var/www/html
+#git clone https://github.com/stackitgit/CliXX_Retail_Repository.git
+cp -r CliXX_Retail_Repository/* /var/www/html
 
-# ## set Wordpress to run in an alternative directory
-# #sudo mkdir /var/www/html/blog
-# #sudo cp -r wordpress/* /var/www/html/
-
-
-# ## Allow wordpress to use Permalinks
-# sudo sed -i '151s/None/All/' /etc/httpd/conf/httpd.conf
-# sudo sed -i 's/wordpress-db.cc5iigzknvxd.us-east-1.rds.amazonaws.com/wordpressdbclixx-ecs2.cn2yqqwoac4e.us-east-1.rds.amazonaws.com/' /var/www/html/wp-config.php
-
-# if [ $? == 0 ]
-# then
-#     echo "sed was done"
-# else
-#     echo "sed was not done"
-# fi
-
-# sudo sed -i.bak "/That's all, stop editing!/i {condition}" {wp}
-# if [ $? == 0 ]
-# then
-#     echo "sed for condtional statement was done"
-# else
-#     echo "sed for condtional statement was not done"
-# fi
-
-# #DNS=$(curl http://169.254.169.254/latest/meta-data/public-hostname)
-# #echo $DNS
-# #DNS=${lb_dns}
-# sleep 600
-# output_variable=$(mysql -u wordpressuser -p -h wordpressdbclixx-ecs2.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123 -sse "select option_value from wp_options where option_value like 'CliXX-APP-%';")
-# echo $output_variable
-
-# if [ output_variable == {lb_dns} ]
-# then
-#     echo "DNS Address in the the table"
-# else
-#     echo "DNS Address is not in the table"
-#     #Logging DB
-#     mysql -u wordpressuser -p -h wordpressdbclixx-ecs2.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123<<EOF
-#     UPDATE wp_options SET option_value ="{lb_dns}" WHERE option_value LIKE "CliXX-APP-%";
-# EOF
-# fi
+## set Wordpress to run in an alternative directory
+#sudo mkdir /var/www/html/blog
+#sudo cp -r wordpress/* /var/www/html/
 
 
-# ##Grant file ownership of /var/www & its contents to apache user
-# sudo chown -R apache /var/www
+## Allow wordpress to use Permalinks
+sudo sed -i '151s/None/All/' /etc/httpd/conf/httpd.conf
+sudo sed -i 's/wordpress-db.cc5iigzknvxd.us-east-1.rds.amazonaws.com/wordpressdbclixx-ecs2.cn2yqqwoac4e.us-east-1.rds.amazonaws.com/' /var/www/html/wp-config.php
 
-# ##Grant group ownership of /var/www & contents to apache group
-# sudo chgrp -R apache /var/www
+if [ $? == 0 ]
+then
+    echo "sed was done"
+else
+    echo "sed was not done"
+fi
 
-# ##Change directory permissions of /var/www & its subdir to add group write 
-# sudo chmod 2775 /var/www
-# find /var/www -type d -exec sudo chmod 2775 {{}} \;
+sudo sed -i.bak "/That's all, stop editing!/i {condition}" {wp}
+if [ $? == 0 ]
+then
+    echo "sed for condtional statement was done"
+else
+    echo "sed for condtional statement was not done"
+fi
 
-# ##Recursively change file permission of /var/www & subdir to add group write perm
-# sudo find /var/www -type f -exec sudo chmod 0664 {{}} \;
+#DNS=$(curl http://169.254.169.254/latest/meta-data/public-hostname)
+#echo $DNS
+#DNS=${lb_dns}
+sleep 600
+output_variable=$(mysql -u wordpressuser -p -h wordpressdbclixx-ecs2.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123 -sse "select option_value from wp_options where option_value like 'CliXX-APP-%';")
+echo $output_variable
 
-# ##Restart Apache
-# sudo systemctl restart httpd
-# sudo service httpd restart
+if [ output_variable == {lb_dns} ]
+then
+    echo "DNS Address in the the table"
+else
+    echo "DNS Address is not in the table"
+    #Logging DB
+    mysql -u wordpressuser -p -h wordpressdbclixx-ecs2.cn2yqqwoac4e.us-east-1.rds.amazonaws.com -D wordpressdb -pW3lcome123<<EOF
+    UPDATE wp_options SET option_value ="{lb_dns}" WHERE option_value LIKE "CliXX-APP-%";
+EOF
+fi
 
-# ##Enable httpd 
-# sudo systemctl enable httpd 
-# sudo /sbin/sysctl -w net.ipv4.tcp_keepalive_time=200 net.ipv4.tcp_keepalive_intvl=200 net.ipv4.tcp_keepalive_probes=5
 
-# """.format(file=FILE, region=REGION, mount_point=MOUNT_POINT, lb_dns=LB_NS, condition=CONDITIONAL_STATEMENT, wp=WP_CONFIG_PATH)
+##Grant file ownership of /var/www & its contents to apache user
+sudo chown -R apache /var/www
+
+##Grant group ownership of /var/www & contents to apache group
+sudo chgrp -R apache /var/www
+
+##Change directory permissions of /var/www & its subdir to add group write 
+sudo chmod 2775 /var/www
+find /var/www -type d -exec sudo chmod 2775 {{}} \;
+
+##Recursively change file permission of /var/www & subdir to add group write perm
+sudo find /var/www -type f -exec sudo chmod 0664 {{}} \;
+
+##Restart Apache
+sudo systemctl restart httpd
+sudo service httpd restart
+
+##Enable httpd 
+sudo systemctl enable httpd 
+sudo /sbin/sysctl -w net.ipv4.tcp_keepalive_time=200 net.ipv4.tcp_keepalive_intvl=200 net.ipv4.tcp_keepalive_probes=5
+
+""".format(file=FILE, region=REGION, mount_point=MOUNT_POINT, lb_dns=LB_NS, condition=CONDITIONAL_STATEMENT, wp=WP_CONFIG_PATH)
 
 
-# encoded_user_data = base64.b64encode(USER_DATA.encode('utf-8')).decode('utf-8')
+encoded_user_data = base64.b64encode(USER_DATA.encode('utf-8')).decode('utf-8')
 
-# ec2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-# response=ec2.create_launch_template(
-#     DryRun=False,
-#     LaunchTemplateName='oloyede',
-#     VersionDescription='webserver1',
-#     LaunchTemplateData={
-#         'EbsOptimized': True,     
-#         'ImageId': 'ami-00f251754ac5da7f0',
-#         'InstanceType': 't2.micro',  
-#         'KeyName': 'Azeez10',     
-#         'UserData': encoded_user_data,
-#         #'SecurityGroupIds': [pubsgid],
-#         'NetworkInterfaces': [{
-#             'AssociatePublicIpAddress': True,  
-#             'DeviceIndex': 0,
-#             'SubnetId': publicsubnetid,
-#             'Groups': [pubsgid] 
-#         }]
-#     }
-#     )
+ec2=boto3.client('ec2',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response=ec2.create_launch_template(
+    DryRun=False,
+    LaunchTemplateName='oloyede',
+    VersionDescription='webserver1',
+    LaunchTemplateData={
+        'EbsOptimized': True,     
+        'ImageId': 'ami-00f251754ac5da7f0',
+        'InstanceType': 't2.micro',  
+        'KeyName': 'Azeez10',     
+        'UserData': encoded_user_data,
+        #'SecurityGroupIds': [pubsgid],
+        'NetworkInterfaces': [{
+            'AssociatePublicIpAddress': True,  
+            'DeviceIndex': 0,
+            'SubnetId': publicsubnetid,
+            'Groups': [pubsgid] 
+        }]
+    }
+    )
 
     
-# print(response)
-# launchtempid=response["LaunchTemplate"]["LaunchTemplateId"]
-# print(launchtempid)
+print(response)
+launchtempid=response["LaunchTemplate"]["LaunchTemplateId"]
+print(launchtempid)
 
-# launchtempname=response["LaunchTemplate"]["LaunchTemplateName"]
-# print(launchtempname)
+launchtempname=response["LaunchTemplate"]["LaunchTemplateName"]
+print(launchtempname)
 
 
-# #-------------------------------Calling ssm to store template id -------------------------
+#-------------------------------Calling ssm to store template id -------------------------
 
-# ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-# response = ssm.put_parameter(
-#     Name='/myapp/launchtemp',
-#     Value=launchtempid,
-#     Type='String',
-#     Overwrite=True
-# )
+ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = ssm.put_parameter(
+    Name='/myapp/launchtemp',
+    Value=launchtempid,
+    Type='String',
+    Overwrite=True
+)
 
-# print(response)
+print(response)
 
-# #-----------------------------Creating autoscaling---------------------------------
+#-----------------------------Creating autoscaling---------------------------------
 
-# autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-# response = autoscaling.create_auto_scaling_group(
-#     AutoScalingGroupName='my-auto-scaling-group',
+autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = autoscaling.create_auto_scaling_group(
+    AutoScalingGroupName='my-auto-scaling-group',
     
-#     LaunchTemplate={
-#         'LaunchTemplateId': launchtempid
+    LaunchTemplate={
+        'LaunchTemplateId': launchtempid
         
        
-#     },
+    },
     
     
-#     MinSize=1,
-#     MaxSize=3,
-#     DesiredCapacity=1,
-#     DefaultCooldown=300,
+    MinSize=1,
+    MaxSize=3,
+    DesiredCapacity=1,
+    DefaultCooldown=300,
  
 
-#     TargetGroupARNs=[targetgrouparn],
+    TargetGroupARNs=[targetgrouparn],
   
-#     HealthCheckGracePeriod=300,
+    HealthCheckGracePeriod=300,
    
    
-#     Tags=[
-#         {
+    Tags=[
+        {
            
-#             'Key': 'Name',
-#             'Value': 'newinstance',
-#             'PropagateAtLaunch': True
-#         }
-#     ],
+            'Key': 'Name',
+            'Value': 'newinstance',
+            'PropagateAtLaunch': True
+        }
+    ],
    
     
    
-#     DefaultInstanceWarmup=300,
-#     VPCZoneIdentifier = f"{publicsubnetid},{publicsubnetid2}"
+    DefaultInstanceWarmup=300,
+    VPCZoneIdentifier = f"{publicsubnetid},{publicsubnetid2}"
 
-#      #VPCZoneIdentifier=[publicsubnetid,publicsubnetid2]
+     #VPCZoneIdentifier=[publicsubnetid,publicsubnetid2]
 
  
-# )
+)
 
-# print(response)
-
-
-# #--------------------------Calling ssm to store auto scalingroup id  -----------------------------
-
-# ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-# response = ssm.put_parameter(
-#     Name='/myapp/austoscaling',
-#     Value='my-auto-scaling-group',
-#     Type='String',
-#     Overwrite=True
-# )
-
-# print(response)
-
-# #-------------------------------------creating Scale out policy-------------------------------------
-
-# autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-# scale_up_policy = autoscaling.put_scaling_policy(
-#     AutoScalingGroupName='my-auto-scaling-group',
-#     PolicyName='ScaleUpPolicy',
-#     AdjustmentType='ChangeInCapacity',
-#     ScalingAdjustment=1,  
-#     Cooldown=30  
-# )
-# print(scale_up_policy)
+print(response)
 
 
+#--------------------------Calling ssm to store auto scalingroup id  -----------------------------
 
-# #---------------------------------------Creating SCale Down Policy-------------------------------------
+ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = ssm.put_parameter(
+    Name='/myapp/austoscaling',
+    Value='my-auto-scaling-group',
+    Type='String',
+    Overwrite=True
+)
 
-# autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-# scale_down_policy = autoscaling.put_scaling_policy(
-#     AutoScalingGroupName='my-auto-scaling-group',
-#     PolicyName='ScaleDownPolicy',
-#     AdjustmentType='ChangeInCapacity',
-#     ScalingAdjustment=-1,  
-#     Cooldown=30
-# )
-# print(scale_down_policy)
+print(response)
+
+#-------------------------------------creating Scale out policy-------------------------------------
+
+autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+scale_up_policy = autoscaling.put_scaling_policy(
+    AutoScalingGroupName='my-auto-scaling-group',
+    PolicyName='ScaleUpPolicy',
+    AdjustmentType='ChangeInCapacity',
+    ScalingAdjustment=1,  
+    Cooldown=30  
+)
+print(scale_up_policy)
 
 
 
+#---------------------------------------Creating SCale Down Policy-------------------------------------
 
-
-# #-------------------------------------Scale up alarm----------------------------------------
-
-# cloudwatch = boto3.client('cloudwatch',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-# response=cloudwatch.put_metric_alarm(
-#     AlarmName='CPUUtilizationHigh',
-#     MetricName='CPUUtilization',
-#     Namespace='AWS/EC2',
-#     Statistic='Average',
-#     Period=300,
-#     EvaluationPeriods=1,
-#     Threshold=50.0,  
-#     ComparisonOperator='GreaterThanThreshold',
-#     Dimensions=[
-#         {
-#             'Name': 'AutoScalingGroupName',
-#             'Value': 'my-auto-scaling-group'
-#         },
-#     ],
-#     ActionsEnabled=True,
-#     AlarmActions=[
-#         scale_up_policy['PolicyARN']  
-#     ]
-# )
-# print(response)
-
-
-
-# #-------------------------------------Scale down alarm--------------------------------------
-
-# autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-# response=cloudwatch.put_metric_alarm(
-#     AlarmName='CPUUtilizationLow',
-#     MetricName='CPUUtilization',
-#     Namespace='AWS/EC2',
-#     Statistic='Average',
-#     Period=300,
-#     EvaluationPeriods=1,
-#     Threshold=25.0,  # Threshold to trigger scale-down
-#     ComparisonOperator='LessThanThreshold',
-#     Dimensions=[
-#         {
-#             'Name': 'AutoScalingGroupName',
-#             'Value': 'my-auto-scaling-group'
-#         },
-#     ],
-#     ActionsEnabled=True,
-#     AlarmActions=[
-#         scale_down_policy['PolicyARN']  # ARN of the scale-down policy
-#     ]
-# )
-# print(response)
+autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+scale_down_policy = autoscaling.put_scaling_policy(
+    AutoScalingGroupName='my-auto-scaling-group',
+    PolicyName='ScaleDownPolicy',
+    AdjustmentType='ChangeInCapacity',
+    ScalingAdjustment=-1,  
+    Cooldown=30
+)
+print(scale_down_policy)
 
 
 
 
-# #----------------------CAlling ssm to store filesystem id ---------------------------------------------
 
-# ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
-# response = ssm.put_parameter(
-#     Name='/myapp/filesystem',
-#     Value=filesystemid,
-#     Type='String',
-#     Overwrite=True
-# )
+#-------------------------------------Scale up alarm----------------------------------------
 
-# print(response)
+cloudwatch = boto3.client('cloudwatch',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response=cloudwatch.put_metric_alarm(
+    AlarmName='CPUUtilizationHigh',
+    MetricName='CPUUtilization',
+    Namespace='AWS/EC2',
+    Statistic='Average',
+    Period=300,
+    EvaluationPeriods=1,
+    Threshold=50.0,  
+    ComparisonOperator='GreaterThanThreshold',
+    Dimensions=[
+        {
+            'Name': 'AutoScalingGroupName',
+            'Value': 'my-auto-scaling-group'
+        },
+    ],
+    ActionsEnabled=True,
+    AlarmActions=[
+        scale_up_policy['PolicyARN']  
+    ]
+)
+print(response)
+
+
+
+#-------------------------------------Scale down alarm--------------------------------------
+
+autoscaling = boto3.client('autoscaling', aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response=cloudwatch.put_metric_alarm(
+    AlarmName='CPUUtilizationLow',
+    MetricName='CPUUtilization',
+    Namespace='AWS/EC2',
+    Statistic='Average',
+    Period=300,
+    EvaluationPeriods=1,
+    Threshold=25.0,  # Threshold to trigger scale-down
+    ComparisonOperator='LessThanThreshold',
+    Dimensions=[
+        {
+            'Name': 'AutoScalingGroupName',
+            'Value': 'my-auto-scaling-group'
+        },
+    ],
+    ActionsEnabled=True,
+    AlarmActions=[
+        scale_down_policy['PolicyARN']  # ARN of the scale-down policy
+    ]
+)
+print(response)
+
+
+
+
+#----------------------CAlling ssm to store filesystem id ---------------------------------------------
+
+ssm = boto3.client('ssm',aws_access_key_id=credentials['AccessKeyId'],aws_secret_access_key=credentials['SecretAccessKey'],aws_session_token=credentials['SessionToken'],region_name=AWS_REGION)
+response = ssm.put_parameter(
+    Name='/myapp/filesystem',
+    Value=filesystemid,
+    Type='String',
+    Overwrite=True
+)
+
+print(response)

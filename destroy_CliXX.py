@@ -75,7 +75,7 @@ for x in ["fsmt-0aee0138c576924f7","fsmt-0a917953edb97de19"]:
 
 
 time.sleep(80)
-"""
+
 
 #-----------calling ssm to get autos caling group info ------------------------------------------
 
@@ -91,7 +91,7 @@ response =autoscaling.delete_auto_scaling_group(
     AutoScalingGroupName=autoscaling_groupname,
     ForceDelete=True
 )
-
+"""
 
 #---------------------calling ssm to get file syatem info -------------------------------------------------------
 
